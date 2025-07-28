@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/interceptors/loading.interceptor.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1753431410092,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753431417516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n import { Injectable } from '@angular/core';\n import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';\n import { Observable, finalize } from 'rxjs';\n-import { LoadingService } from './loading.service';\n+import { LoadingService } from '../services/loading.service';\n \n @Injectable()\n export class LoadingInterceptor implements HttpInterceptor {\n \n"
+                }
+            ],
+            "date": 1753431410092,
+            "name": "Commit-0",
+            "content": "import { Injectable } from '@angular/core';\nimport { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';\nimport { Observable, finalize } from 'rxjs';\nimport { LoadingService } from './loading.service';\n\n@Injectable()\nexport class LoadingInterceptor implements HttpInterceptor {\n\n  constructor(private loadingService: LoadingService) {}\n\n  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {\n    this.loadingService.show();\n    return next.handle(req).pipe(\n      finalize(() => this.loadingService.hide())\n    );\n  }\n}\n"
+        }
+    ]
+}

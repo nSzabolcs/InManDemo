@@ -1,0 +1,102 @@
+<div class="container">
+  <div class="title">
+    <mat-icon>reorder</mat-icon>
+    <h2>Szintek kezelése</h2>
+  </div>
+  <h3 class="breadcrumb">
+    <a routerLink="/buildings">Főoldal</a>
+    <mat-icon>arrow_right</mat-icon>
+    <a routerLink="/levels/{{buildingId}}">{{building?.name}} [ {{building?.address}} ]</a>
+  </h3>
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Szint űrlap </mat-panel-title>
+        <mat-panel-description>
+          Új szint hozzáadása / szint adatainak módosítása
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Szint megnevezése</mat-label>
+        <input matInput placeholder="Add meg a szint nevét..." [(ngModel)]="levelForm.name" name="name">
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" (click)="save()"> <mat-icon>save</mat-icon> Mentés </button>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="mat-elevation-z8">
+    <table mat-table matSort [dataSource]="dataSource">
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="id" class="hide">
+        <th mat-header-cell *matHeaderCellDef class="hide"> # </th>
+        <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+          {{ i + 1 }}.
+        </td>
+      </ng-container>
+
+      <!-- Preview Column -->
+      <ng-container matColumnDef="preview">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Előnézet </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <img *ngIf="element.preview" [src]="element.preview" class="thumbnail"
+            (click)="openImageDialog(element.preview)">
+          <span *ngIf="!element.preview">
+            <img src="assets/nopreview.png" class="thumbnail">
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Megnevezés </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- rooms Column -->
+      <ng-container matColumnDef="rooms">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Helységek száma </th>
+        <td mat-cell *matCellDef="let element"> {{element.rooms}} </td>
+      </ng-container>
+
+      <!-- Details Column -->
+      <ng-container matColumnDef="occupancy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Foglaltság </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar mode="determinate" [value]="element.occupancy || 0" color="primary"></mat-progress-bar>
+          <div class="percentLabel">{{ element.occupancy || 0 }}%</div>
+        </td>
+      </ng-container>
+
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-end"> Műveletek </th>
+        <td mat-cell *matCellDef="let element" class="text-end">
+          <button mat-icon-button color="accent" routerLink="/floorplan/{{element.id}}" title="Alaprajz">
+            <mat-icon>wallpaper</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" routerLink="/rooms/{{element.id}}" title="Helységek">
+            <mat-icon>dashboard</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="onEdit(element)" title="Épület módosítása">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDelete(element)" title="Épület törlése">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </div>
+  <button mat-flat-button color="primary" routerLink="/"> <mat-icon>keyboard_backspace</mat-icon> Vissza </button>
+
+</div>

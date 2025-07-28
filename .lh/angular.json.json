@@ -1,0 +1,22 @@
+{
+    "sourceFile": "angular.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1753270969470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753361105818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,8 +25,9 @@\n             ],\n             \"tsConfig\": \"tsconfig.app.json\",\n             \"inlineStyleLanguage\": \"scss\",\n             \"assets\": [\n+              \"src/assets\",\n               {\n                 \"glob\": \"**/*\",\n                 \"input\": \"public\"\n               }\n"
+                }
+            ],
+            "date": 1753270969470,
+            "name": "Commit-0",
+            "content": "{\n  \"$schema\": \"./node_modules/@angular/cli/lib/config/schema.json\",\n  \"version\": 1,\n  \"newProjectRoot\": \"projects\",\n  \"projects\": {\n    \"InManDemo\": {\n      \"projectType\": \"application\",\n      \"schematics\": {\n        \"@schematics/angular:component\": {\n          \"style\": \"scss\"\n        }\n      },\n      \"root\": \"\",\n      \"sourceRoot\": \"src\",\n      \"prefix\": \"app\",\n      \"architect\": {\n        \"build\": {\n          \"builder\": \"@angular-devkit/build-angular:application\",\n          \"options\": {\n            \"outputPath\": \"dist/in-man-demo\",\n            \"index\": \"src/index.html\",\n            \"browser\": \"src/main.ts\",\n            \"polyfills\": [\n              \"zone.js\"\n            ],\n            \"tsConfig\": \"tsconfig.app.json\",\n            \"inlineStyleLanguage\": \"scss\",\n            \"assets\": [\n              {\n                \"glob\": \"**/*\",\n                \"input\": \"public\"\n              }\n            ],\n            \"styles\": [\n              \"node_modules/@angular/material/prebuilt-themes/indigo-pink.css\",\n              \"src/styles.scss\"\n            ],\n            \"scripts\": []\n          },\n          \"configurations\": {\n            \"production\": {\n              \"budgets\": [\n                {\n                  \"type\": \"initial\",\n                  \"maximumWarning\": \"10MB\",\n                  \"maximumError\": \"10MB\"\n                },\n                {\n                  \"type\": \"anyComponentStyle\",\n                  \"maximumWarning\": \"10MB\",\n                  \"maximumError\": \"10MB\"\n                }\n              ],\n              \"outputHashing\": \"all\"\n            },\n            \"development\": {\n              \"optimization\": false,\n              \"extractLicenses\": false,\n              \"sourceMap\": true\n            }\n          },\n          \"defaultConfiguration\": \"production\"\n        },\n        \"serve\": {\n          \"builder\": \"@angular-devkit/build-angular:dev-server\",\n          \"configurations\": {\n            \"production\": {\n              \"buildTarget\": \"InManDemo:build:production\"\n            },\n            \"development\": {\n              \"buildTarget\": \"InManDemo:build:development\"\n            }\n          },\n          \"defaultConfiguration\": \"development\"\n        },\n        \"extract-i18n\": {\n          \"builder\": \"@angular-devkit/build-angular:extract-i18n\"\n        },\n        \"test\": {\n          \"builder\": \"@angular-devkit/build-angular:karma\",\n          \"options\": {\n            \"polyfills\": [\n              \"zone.js\",\n              \"zone.js/testing\"\n            ],\n            \"tsConfig\": \"tsconfig.spec.json\",\n            \"inlineStyleLanguage\": \"scss\",\n            \"assets\": [\n              {\n                \"glob\": \"**/*\",\n                \"input\": \"public\"\n              }\n            ],\n            \"styles\": [\n              \"node_modules/@angular/material/prebuilt-themes/indigo-pink.css\",\n              \"src/styles.scss\"\n            ],\n            \"scripts\": []\n          }\n        }\n      }\n    }\n  },\n  \"cli\": {\n    \"analytics\": false\n  }\n}\n"
+        }
+    ]
+}

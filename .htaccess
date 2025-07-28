@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /InManDemo/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api(/.*)?$ PHPAPI/server.php [QSA,L]

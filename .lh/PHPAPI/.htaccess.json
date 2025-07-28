@@ -1,0 +1,30 @@
+{
+    "sourceFile": "PHPAPI/.htaccess",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1753269446173,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753269757177,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,6 @@\n+RewriteEngine On\n+RewriteBase /\n+\n+RewriteCond %{REQUEST_FILENAME} !-f\n+RewriteCond %{REQUEST_FILENAME} !-d\n+RewriteRule ^api(/.*)?$ phpapi/server.php [QSA,L]\n"
+                },
+                {
+                    "date": 1753269764009,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,13 +3,4 @@\n \n RewriteCond %{REQUEST_FILENAME} !-f\n RewriteCond %{REQUEST_FILENAME} !-d\n RewriteRule ^api(/.*)?$ phpapi/server.php [QSA,L]\n-RewriteEngine On\n-RewriteBase /\n-\n-# Csak akkor továbbítsd az api hívásokat, ha nem létező fájlról vagy mappáról van szó\n-RewriteCond %{REQUEST_FILENAME} !-f\n-RewriteCond %{REQUEST_FILENAME} !-d\n-\n-# Minden /api/... útvonalat irányíts át api.php-re\n-RewriteRule ^api(/.*)?$ api.php [QSA,L]\n"
+                },
+                {
+                    "date": 1753270068413,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n RewriteEngine On\n-RewriteBase /\n+RewriteBase /InManDemo/\n \n RewriteCond %{REQUEST_FILENAME} !-f\n RewriteCond %{REQUEST_FILENAME} !-d\n-RewriteRule ^api(/.*)?$ phpapi/server.php [QSA,L]\n+RewriteRule ^api(/.*)?$ PHPAPI/server.php [QSA,L]\n"
+                }
+            ],
+            "date": 1753269446173,
+            "name": "Commit-0",
+            "content": "RewriteEngine On\nRewriteBase /\n\n# Csak akkor továbbítsd az api hívásokat, ha nem létező fájlról vagy mappáról van szó\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\n\n# Minden /api/... útvonalat irányíts át api.php-re\nRewriteRule ^api(/.*)?$ api.php [QSA,L]\n"
+        }
+    ]
+}

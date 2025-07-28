@@ -1,0 +1,74 @@
+{
+    "sourceFile": "src/app/app.component.scss",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 14,
+            "patches": [
+                {
+                    "date": 1753363605461,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753363616692,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+html, body {\n+  height: 100%;\n+  margin: 0;\n+}\n+\n+.page-container {\n+  display: flex;\n+  flex-direction: column;\n+  min-height: 100vh;\n+  background-color: whitesmoke;\n+}\n+\n+.content-wrap {\n+  flex: 1;\n+  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n+}\n"
+                },
+                {
+                    "date": 1753365123269,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+html, body {\n+  height: 100%;\n+  margin: 0;\n+}\n+\n+.page-container {\n+  display: flex;\n+  flex-direction: column;\n+  min-height: 100vh;\n+  background-color: whitesmoke;\n+  background-image: url('assets/indotek-logo.png');\n+  background-position: center center;\n+}\n+\n+.content-wrap {\n+  flex: 1;\n+  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n+}\n"
+                },
+                {
+                    "date": 1753365147549,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,36 +15,4 @@\n .content-wrap {\n   flex: 1;\n   padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n }\n-html, body {\n-  height: 100%;\n-  margin: 0;\n-}\n-\n-.page-container {\n-  display: flex;\n-  flex-direction: column;\n-  min-height: 100vh;\n-  background-color: whitesmoke;\n-}\n-\n-.content-wrap {\n-  flex: 1;\n-  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n-}\n-html, body {\n-  height: 100%;\n-  margin: 0;\n-}\n-\n-.page-container {\n-  display: flex;\n-  flex-direction: column;\n-  min-height: 100vh;\n-  background-color: aqua;\n-}\n-\n-.content-wrap {\n-  flex: 1;\n-  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n-}\n"
+                },
+                {
+                    "date": 1753365167629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+html, body {\n+  height: 100%;\n+  margin: 0;\n+}\n+\n+.page-container {\n+  display: flex;\n+  flex-direction: column;\n+  min-height: 100vh;\n+  background-color: whitesmoke;\n+  background-image: url('./assets/indotek-logo.png');\n+  background-position: center center;\n+}\n+\n+.content-wrap {\n+  flex: 1;\n+  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n+}\n"
+                },
+                {
+                    "date": 1753365174260,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,30 +7,12 @@\n   display: flex;\n   flex-direction: column;\n   min-height: 100vh;\n   background-color: whitesmoke;\n-  background-image: url('./assets/indotek-logo.png');\n+  background-image: url('./indotek-logo.png');\n   background-position: center center;\n }\n \n .content-wrap {\n   flex: 1;\n   padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n }\n-html, body {\n-  height: 100%;\n-  margin: 0;\n-}\n-\n-.page-container {\n-  display: flex;\n-  flex-direction: column;\n-  min-height: 100vh;\n-  background-color: whitesmoke;\n-  background-image: url('assets/indotek-logo.png');\n-  background-position: center center;\n-}\n-\n-.content-wrap {\n-  flex: 1;\n-  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n-}\n"
+                },
+                {
+                    "date": 1753365183389,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   display: flex;\n   flex-direction: column;\n   min-height: 100vh;\n   background-color: whitesmoke;\n-  background-image: url('./indotek-logo.png');\n+  background-image: url('.src/app/assets/indotek-logo.png');\n   background-position: center center;\n }\n \n .content-wrap {\n"
+                },
+                {
+                    "date": 1753365195151,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+html, body {\n+  height: 100%;\n+  margin: 0;\n+}\n+\n+.page-container {\n+  display: flex;\n+  flex-direction: column;\n+  min-height: 100vh;\n+  background-color: whitesmoke;\n+  background-image: url('indotek-logo.png');\n+  background-position: center center;\n+}\n+\n+.content-wrap {\n+  flex: 1;\n+  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n+}\n"
+                },
+                {
+                    "date": 1753365234500,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   display: flex;\n   flex-direction: column;\n   min-height: 100vh;\n   background-color: whitesmoke;\n-  background-image: url('indotek-logo.png');\n+background-image: url(\"assets/indotek-logo.png\");\n   background-position: center center;\n }\n \n .content-wrap {\n"
+                },
+                {
+                    "date": 1753365277238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+html, body {\n+  height: 100%;\n+  margin: 0;\n+}\n+\n+.page-container {\n+  display: flex;\n+  flex-direction: column;\n+  min-height: 100vh;\n+  background-color: whitesmoke;\n+background-image: url(\"/assets/indotek-logo.png\");\n+  background-position: center center;\n+}\n+\n+.content-wrap {\n+  flex: 1;\n+  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n+}\n"
+                },
+                {
+                    "date": 1753365287090,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n   min-height: 100vh;\n   background-color: whitesmoke;\n background-image: url(\"/assets/indotek-logo.png\");\n   background-position: center center;\n+  background-repeat: no-repeat;\n }\n \n .content-wrap {\n   flex: 1;\n"
+                },
+                {
+                    "date": 1753366871489,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,49 +7,13 @@\n   display: flex;\n   flex-direction: column;\n   min-height: 100vh;\n   background-color: whitesmoke;\n-background-image: url(\"/assets/indotek-logo.png\");\n+background-image: url(\"./assets/indotek-logo.png\");\n   background-position: center center;\n   background-repeat: no-repeat;\n }\n \n .content-wrap {\n   flex: 1;\n   padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n }\n-html, body {\n-  height: 100%;\n-  margin: 0;\n-}\n-\n-.page-container {\n-  display: flex;\n-  flex-direction: column;\n-  min-height: 100vh;\n-  background-color: whitesmoke;\n-background-image: url(\"assets/indotek-logo.png\");\n-  background-position: center center;\n-}\n-\n-.content-wrap {\n-  flex: 1;\n-  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n-}\n-html, body {\n-  height: 100%;\n-  margin: 0;\n-}\n-\n-.page-container {\n-  display: flex;\n-  flex-direction: column;\n-  min-height: 100vh;\n-  background-color: whitesmoke;\n-  background-image: url('.src/app/assets/indotek-logo.png');\n-  background-position: center center;\n-}\n-\n-.content-wrap {\n-  flex: 1;\n-  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n-}\n"
+                },
+                {
+                    "date": 1753366878705,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   display: flex;\n   flex-direction: column;\n   min-height: 100vh;\n   background-color: whitesmoke;\n-background-image: url(\"./assets/indotek-logo.png\");\n+background-image: url(\"assets/indotek-logo.png\");\n   background-position: center center;\n   background-repeat: no-repeat;\n }\n \n"
+                },
+                {
+                    "date": 1753432085668,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   display: flex;\n   flex-direction: column;\n   min-height: 100vh;\n   background-color: whitesmoke;\n-background-image: url(\"/assets/indotek-logo.png\");\n+  background-image: url(\"/assets/indotek-logo.png\");\n   background-position: center center;\n   background-repeat: no-repeat;\n }\n \n"
+                },
+                {
+                    "date": 1753432105435,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,6 +14,6 @@\n }\n \n .content-wrap {\n   flex: 1;\n-  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n+  padding-bottom: 1rem; \n }\n"
+                }
+            ],
+            "date": 1753363605461,
+            "name": "Commit-0",
+            "content": "html, body {\n  height: 100%;\n  margin: 0;\n}\n\n.page-container {\n  display: flex;\n  flex-direction: column;\n  min-height: 100vh;\n  background-color: aqua;\n}\n\n.content-wrap {\n  flex: 1;\n  padding-bottom: 1rem; // ha kell elválasztás a lábléctől\n}\n"
+        }
+    ]
+}

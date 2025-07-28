@@ -1,0 +1,38 @@
+{
+    "sourceFile": "src/app/services/snackbar.service.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1753434153427,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753434159394,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,5 +14,6 @@\n       duration: 3000,\n       panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']\n     });\n   }\n+  \n }\n"
+                },
+                {
+                    "date": 1753435040075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,11 @@\n \n   show(message: string, type: 'success' | 'error' = 'success'): void {\n     this.snackBar.open(message, 'Bezár', {\n       duration: 3000,\n-      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']\n+      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error'],\n+      verticalPosition: 'top',\n+      horizontalPosition: 'right'\n     });\n   }\n   \n }\n"
+                },
+                {
+                    "date": 1753435056132,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n   show(message: string, type: 'success' | 'error' = 'success'): void {\n     this.snackBar.open(message, 'Bezár', {\n       duration: 3000,\n       panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error'],\n-      verticalPosition: 'top',\n+      verticalPosition: 'bottom',\n       horizontalPosition: 'right'\n     });\n   }\n   \n"
+                },
+                {
+                    "date": 1753435617647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,8 +3,9 @@\n \n @Injectable({\n   providedIn: 'root'\n })\n+\n export class SnackbarService {\n \n   constructor(private snackBar: MatSnackBar) {}\n \n"
+                },
+                {
+                    "date": 1753435644127,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,21 @@\n+import { Injectable } from '@angular/core';\n+import { MatSnackBar } from '@angular/material/snack-bar';\n+\n+@Injectable({\n+  providedIn: 'root'\n+})\n+\n+export class SnackbarService {\n+\n+  constructor(private snackBar: MatSnackBar) {}\n+\n+  show(message: string, type: 'success' | 'error' = 'success'): void {\n+    this.snackBar.open(message, 'Bezár', {\n+      duration: 3000,\n+      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error'],\n+      verticalPosition: 'bottom',\n+      horizontalPosition: 'center'\n+    });\n+  }\n+  \n+}\n"
+                }
+            ],
+            "date": 1753434153427,
+            "name": "Commit-0",
+            "content": "import { Injectable } from '@angular/core';\nimport { MatSnackBar } from '@angular/material/snack-bar';\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class SnackbarService {\n\n  constructor(private snackBar: MatSnackBar) {}\n\n  show(message: string, type: 'success' | 'error' = 'success'): void {\n    this.snackBar.open(message, 'Bezár', {\n      duration: 3000,\n      panelClass: type === 'success' ? ['snackbar-success'] : ['snackbar-error']\n    });\n  }\n}\n"
+        }
+    ]
+}

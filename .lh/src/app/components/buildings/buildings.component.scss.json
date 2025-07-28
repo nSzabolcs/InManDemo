@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/components/buildings/buildings.component.scss",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1753363238182,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753366577161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,5 +13,13 @@\n \n mat-progress-bar {\n   width: 100%;\n   margin-top: 10px;\n+}\n+\n+thumbnail{\n+  border: 1px solid #e6e6e6;\n+ max-width: 120px;\n+  border-radius: 6px;\n+  margin: 8px 0;\n+  cursor: pointer;\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1753363238182,
+            "name": "Commit-0",
+            "content": ".mat-elevation-z8{\n  margin-top: 20px !important;\n}\n\n.w-100 {\n  width: 100%;\n}\n\n\n.text-end{\n  text-align: right !important;\n}\n\nmat-progress-bar {\n  width: 100%;\n  margin-top: 10px;\n}"
+        }
+    ]
+}

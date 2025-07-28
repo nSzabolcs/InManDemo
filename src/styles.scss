@@ -1,0 +1,111 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container{
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.snackbar-success {
+  margin-bottom: 100px !important;
+  --mdc-snackbar-container-color: rgba(184, 245, 187, 0.493);
+  --mdc-snackbar-supporting-text-color: #234718;
+  --mdc-text-button-label-text-color: white;
+  --mdc-text-button-label-text-color-hover: white;
+  --mat-mdc-button-persistent-ripple-color: rgba(255, 255, 255, 0.2); 
+  border: 1px solid #6ba559;
+  border-radius: 4px;
+  .mat-mdc-button {
+    background-color: #387226; 
+    color: white !important;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-weight: 500;
+  }
+
+  .mat-mdc-button:hover {
+    background-color: #387226;
+  }
+}
+
+ .snackbar-success .mdc-snackbar__surface,
+ .snackbar-error .mdc-snackbar__surface {
+  box-shadow: none !important;
+}
+
+
+.snackbar-error {
+  margin-bottom: 100px !important;
+  --mdc-snackbar-container-color: rgba(245, 182, 182, 0.8);
+  --mdc-snackbar-supporting-text-color: #94271f;
+  --mdc-text-button-label-text-color: white;
+  --mdc-text-button-label-text-color-hover: white;
+  --mat-mdc-button-persistent-ripple-color: rgba(255, 255, 255, 0.2); 
+  border: 1px solid rgb(253, 169, 169);
+  border-radius: 4px;
+  .mat-mdc-button {
+    background-color: #94271f; 
+    color: white !important;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-weight: 500;
+  }
+
+  .mat-mdc-button:hover {
+    background-color: #94271f;
+  }
+}
+
+
+hr{
+  border-top: none;
+  border-bottom: 1px dashed #ccc;
+
+}
+
+.mat-elevation-z8 {
+  box-shadow: none !important;
+  border: 1px solid #e0e0e0 !important;
+}
+
+
+a,  a:visited{
+  color: #3f51b5;
+  text-decoration: none !important;  
+}
+
+a:hover{
+  color: #6c9edf;
+}
+
+.breadcrumb{
+  margin: 0;
+  padding: 0 0 20px 0;
+}
+
+h3 > mat-icon {
+  padding: 0 6px;
+  font-size: 165% !important;
+  color: #6c9edf;
+}
+
+.title > mat-icon{
+  font-size: 200% !important;
+  color: #6c9edf;
+  padding: 10px 10px 10px 0;
+}
+
+.title{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  justify-items: center;
+}
+
+.title > h2 {
+  margin: 13px 5px
+  
+}

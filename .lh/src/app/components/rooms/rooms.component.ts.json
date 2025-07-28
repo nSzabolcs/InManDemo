@@ -1,0 +1,38 @@
+{
+    "sourceFile": "src/app/components/rooms/rooms.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1753436818470,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753436846675,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,16 @@\n   styleUrl: './rooms.component.scss'\n })\n \n export class RoomsComponent {\n+\n+  levelId: any = null;\n+  buildingId: any = null;\n+  currentLevel: any = null;\n+  currentBuilding: any = null;\n+\n   constructor(\n     private api: ApiService,\n     private snackbar: SnackbarService\n   ) { }\n+\n }\n"
+                },
+                {
+                    "date": 1753436912767,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,8 @@\n-import { Component } from '@angular/core';\n+import { Component, inject } from '@angular/core';\n import { ApiService } from '../../services/api.service';\n import { SnackbarService } from '../../services/snackbar.service';\n+import { ActivatedRoute } from '@angular/router';\n \n @Component({\n   selector: 'app-rooms',\n   standalone: true,\n@@ -15,8 +16,9 @@\n   levelId: any = null;\n   buildingId: any = null;\n   currentLevel: any = null;\n   currentBuilding: any = null;\n+  readonly route = inject(ActivatedRoute);\n \n   constructor(\n     private api: ApiService,\n     private snackbar: SnackbarService\n"
+                },
+                {
+                    "date": 1753436961186,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-import { Component, inject } from '@angular/core';\n+import { Component, inject, OnInit } from '@angular/core';\n import { ApiService } from '../../services/api.service';\n import { SnackbarService } from '../../services/snackbar.service';\n import { ActivatedRoute } from '@angular/router';\n \n@@ -10,9 +10,9 @@\n   templateUrl: './rooms.component.html',\n   styleUrl: './rooms.component.scss'\n })\n \n-export class RoomsComponent {\n+export class RoomsComponent implements OnInit{\n \n   levelId: any = null;\n   buildingId: any = null;\n   currentLevel: any = null;\n@@ -23,5 +23,8 @@\n     private api: ApiService,\n     private snackbar: SnackbarService\n   ) { }\n \n+  ngOnInit(): void {\n+      \n+  }\n }\n"
+                },
+                {
+                    "date": 1753436995902,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,14 @@\n     private snackbar: SnackbarService\n   ) { }\n \n   ngOnInit(): void {\n-      \n+      this.loadBuilding(); \n   }\n-  \n+\n+    loadBuilding() {\n+    this.api.select('buildings', this.buildingId).subscribe({\n+      next: (res) => this.currentBuilding = res,\n+      error: (err) => console.error('Épület lekérdezési hiba:', err)\n+    });\n+  }\n }\n"
+                },
+                {
+                    "date": 1753437001032,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,37 @@\n+import { Component, inject, OnInit } from '@angular/core';\n+import { ApiService } from '../../services/api.service';\n+import { SnackbarService } from '../../services/snackbar.service';\n+import { ActivatedRoute } from '@angular/router';\n+\n+@Component({\n+  selector: 'app-rooms',\n+  standalone: true,\n+  imports: [],\n+  templateUrl: './rooms.component.html',\n+  styleUrl: './rooms.component.scss'\n+})\n+\n+export class RoomsComponent implements OnInit{\n+\n+  levelId: any = null;\n+  buildingId: any = null;\n+  currentLevel: any = null;\n+  currentBuilding: any = null;\n+  readonly route = inject(ActivatedRoute);\n+\n+  constructor(\n+    private api: ApiService,\n+    private snackbar: SnackbarService\n+  ) { }\n+\n+  ngOnInit(): void {\n+      this.loadBuilding(); \n+  }\n+\n+  loadBuilding() {\n+    this.api.select('buildings', this.buildingId).subscribe({\n+      next: (res) => this.currentBuilding = res,\n+      error: (err) => console.error('Épület lekérdezési hiba:', err)\n+    });\n+  }\n+}\n"
+                }
+            ],
+            "date": 1753436818470,
+            "name": "Commit-0",
+            "content": "import { Component } from '@angular/core';\nimport { ApiService } from '../../services/api.service';\nimport { SnackbarService } from '../../services/snackbar.service';\n\n@Component({\n  selector: 'app-rooms',\n  standalone: true,\n  imports: [],\n  templateUrl: './rooms.component.html',\n  styleUrl: './rooms.component.scss'\n})\n\nexport class RoomsComponent {\n  constructor(\n    private api: ApiService,\n    private snackbar: SnackbarService\n  ) { }\n}\n"
+        }
+    ]
+}

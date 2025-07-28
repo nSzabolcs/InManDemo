@@ -1,0 +1,26 @@
+{
+    "sourceFile": ".viewtables",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1753452043188,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753690873000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,4 +21,16 @@\n     SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied\n FROM levels l\n LEFT JOIN rooms r ON r.level_id = l.id\n GROUP BY l.id, l.building_id, l.name, l.floorplan, l.preview;\n+\n+CREATE OR REPLACE VIEW levels_vt AS\n+SELECT\n+    l.id,\n+    l.building_id,\n+    l.name,\n+    l.preview,\n+    COUNT(r.id) AS rooms,\n+    SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied\n+FROM levels l\n+LEFT JOIN rooms r ON r.level_id = l.id\n+GROUP BY l.id, l.building_id, l.name, l.preview;\n"
+                },
+                {
+                    "date": 1753692207930,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,28 @@\n FROM buildings \n LEFT JOIN levels ON levels.building_id = buildings.id\n GROUP BY buildings.id;\n \n+CREATE OR REPLACE VIEW buildings_vt AS\n+SELECT \n+  b.id,\n+  b.name,\n+  b.address,\n+  b.preview,\n+  COUNT(DISTINCT l.id) AS levels,\n+  COUNT(r.id) AS total_rooms,\n+  SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied_rooms,\n+  ROUND(SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) / COUNT(r.id) * 100, 0) AS occupancy\n+FROM buildings b\n+LEFT JOIN levels l ON l.building_id = b.id\n+LEFT JOIN rooms r ON r.level_id = l.id\n+GROUP BY b.id;\n \n+\n+\n+\n+\n+\n CREATE OR REPLACE VIEW levels_vt AS\n SELECT\n     l.id,\n     l.building_id,\n"
+                }
+            ],
+            "date": 1753452043188,
+            "name": "Commit-0",
+            "content": "CREATE VIEW `buildings_vt` AS\nSELECT \n  buildings.id,\n  buildings.name,\n  buildings.address,\n  buildings.preview,\n  COUNT(levels.id) AS levels\nFROM buildings \nLEFT JOIN levels ON levels.building_id = buildings.id\nGROUP BY buildings.id;\n\n\nCREATE OR REPLACE VIEW levels_vt AS\nSELECT\n    l.id,\n    l.building_id,\n    l.name,\n    l.floorplan,\n    l.preview,\n    COUNT(r.id) AS rooms,\n    SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied\nFROM levels l\nLEFT JOIN rooms r ON r.level_id = l.id\nGROUP BY l.id, l.building_id, l.name, l.floorplan, l.preview;\n"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/services/loading.service.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753431373840,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753431373840,
+            "name": "Commit-0",
+            "content": "import { Injectable } from '@angular/core';\nimport { BehaviorSubject } from 'rxjs';\n\n@Injectable({ providedIn: 'root' })\nexport class LoadingService {\n  private loadingCount = 0;\n  private loadingSubject = new BehaviorSubject<boolean>(false);\n  loading$ = this.loadingSubject.asObservable();\n\n  show(): void {\n    this.loadingCount++;\n    if (this.loadingCount === 1) {\n      this.loadingSubject.next(true);\n    }\n  }\n\n  hide(): void {\n    if (this.loadingCount > 0) {\n      this.loadingCount--;\n      if (this.loadingCount === 0) {\n        this.loadingSubject.next(false);\n      }\n    }\n  }\n}\n"
+        }
+    ]
+}

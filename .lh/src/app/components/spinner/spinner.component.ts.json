@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/components/spinner/spinner.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753431620569,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753431620569,
+            "name": "Commit-0",
+            "content": "import { CommonModule, AsyncPipe } from '@angular/common';\nimport { Component } from '@angular/core';\nimport { MatProgressSpinnerModule } from '@angular/material/progress-spinner';\nimport { LoadingService } from '../../services/loading.service';\n\n@Component({\n  selector: 'app-spinner',\n  standalone: true,\n  imports: [CommonModule, MatProgressSpinnerModule, AsyncPipe],\n  templateUrl: './spinner.component.html',\n  styleUrl: './spinner.component.scss'\n})\nexport class SpinnerComponent {\n  constructor(public loadingService: LoadingService) {}\n\n}\n"
+        }
+    ]
+}

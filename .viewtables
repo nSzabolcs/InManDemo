@@ -1,0 +1,55 @@
+CREATE VIEW `buildings_vt` AS
+SELECT 
+  buildings.id,
+  buildings.name,
+  buildings.address,
+  buildings.preview,
+  COUNT(levels.id) AS levels
+FROM buildings 
+LEFT JOIN levels ON levels.building_id = buildings.id
+GROUP BY buildings.id;
+
+CREATE OR REPLACE VIEW buildings_vt AS
+SELECT 
+  b.id,
+  b.name,
+  b.address,
+  b.preview,
+  COUNT(DISTINCT l.id) AS levels,
+  COUNT(r.id) AS total_rooms,
+  SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied_rooms,
+  ROUND(SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) / COUNT(r.id) * 100, 0) AS occupancy
+FROM buildings b
+LEFT JOIN levels l ON l.building_id = b.id
+LEFT JOIN rooms r ON r.level_id = l.id
+GROUP BY b.id;
+
+
+
+
+
+
+CREATE OR REPLACE VIEW levels_vt AS
+SELECT
+    l.id,
+    l.building_id,
+    l.name,
+    l.floorplan,
+    l.preview,
+    COUNT(r.id) AS rooms,
+    SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied
+FROM levels l
+LEFT JOIN rooms r ON r.level_id = l.id
+GROUP BY l.id, l.building_id, l.name, l.floorplan, l.preview;
+
+CREATE OR REPLACE VIEW levels_vt AS
+SELECT
+    l.id,
+    l.building_id,
+    l.name,
+    l.preview,
+    COUNT(r.id) AS rooms,
+    SUM(CASE WHEN r.status = 1 THEN 1 ELSE 0 END) AS occupied
+FROM levels l
+LEFT JOIN rooms r ON r.level_id = l.id
+GROUP BY l.id, l.building_id, l.name, l.preview;

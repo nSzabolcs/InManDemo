@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/app.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753431592283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753431592283,
+            "name": "Commit-0",
+            "content": "\n\n<app-spinner></app-spinner>\n\n<div class=\"page-container\">\n  <app-navbar></app-navbar>\n  <div class=\"content-wrap\">\n    <router-outlet></router-outlet>\n  </div>\n\n<app-footer></app-footer>\n\n</div>\n"
+        }
+    ]
+}

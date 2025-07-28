@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/components/imagemodal/imagemodal.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1753359600433,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753359610736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,12 @@\n+import { CommonModule } from '@angular/common';\n import { Component, Inject } from '@angular/core';\n import { MAT_DIALOG_DATA } from '@angular/material/dialog';\n \n @Component({\n   selector: 'app-imagemodal',\n   standalone: true,\n-  imports: [],\n+  imports: [CommonModule],\n   templateUrl: './imagemodal.component.html',\n   styleUrl: './imagemodal.component.scss'\n })\n \n"
+                },
+                {
+                    "date": 1753359625144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,12 @@\n import { CommonModule } from '@angular/common';\n import { Component, Inject } from '@angular/core';\n-import { MAT_DIALOG_DATA } from '@angular/material/dialog';\n+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';\n \n @Component({\n   selector: 'app-imagemodal',\n   standalone: true,\n-  imports: [CommonModule],\n+  imports: [CommonModule, MatDialogModule],\n   templateUrl: './imagemodal.component.html',\n   styleUrl: './imagemodal.component.scss'\n })\n \n"
+                }
+            ],
+            "date": 1753359600433,
+            "name": "Commit-0",
+            "content": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-imagemodal',\n  standalone: true,\n  imports: [],\n  templateUrl: './imagemodal.component.html',\n  styleUrl: './imagemodal.component.scss'\n})\n\nexport class ImagemodalComponent {\n  constructor(@Inject(MAT_DIALOG_DATA) public data: { image: string }) {}\n\n}\n"
+        }
+    ]
+}

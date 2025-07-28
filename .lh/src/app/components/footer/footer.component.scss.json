@@ -1,0 +1,38 @@
+{
+    "sourceFile": "src/app/components/footer/footer.component.scss",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1753361150771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753361428838,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,6 +7,6 @@\n   color: white;\n }\n \n .logo{\n-  width: 50px;\n+  width: 200px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753361469381,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+.footer{\n+  text-align: center;\n+  padding: 10px;\n+  font-size: 80%;\n+  letter-spacing: 3px;\n+  background-color: black;\n+  color: white;\n+}\n+\n+.logo{\n+  width: 200px;\n+}\n+\n+a{\n+  color: white;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753361587695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,17 +12,5 @@\n }\n \n a{\n   color: white;\n-}\n-.footer{\n-  text-align: center;\n-  padding: 10px;\n-  font-size: 80%;\n-  letter-spacing: 3px;\n-  background-color: black;\n-  color: white;\n-}\n-\n-.logo{\n-  width: 200px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753361608695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n   flex-wrap: wrap;\n   padding: 20px;\n   font-size: 14px;\n   color: #444;\n-  background-color: #f0f0f0;\n+  background-color: #333333;\n   border-top: 1px solid #ccc;\n \n   .footer-left {\n     display: flex;\n"
+                },
+                {
+                    "date": 1753361680758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n   flex-wrap: wrap;\n   padding: 20px;\n   font-size: 14px;\n   color: #444;\n-  background-color: #1d1d1d;\n+  background-color: #21293d;\n   border-top: 1px solid #ccc;\n \n   .footer-left {\n     display: flex;\n"
+                }
+            ],
+            "date": 1753361150771,
+            "name": "Commit-0",
+            "content": ".footer{\n  text-align: center;\n  padding: 10px;\n  font-size: 80%;\n  letter-spacing: 3px;\n  background-color: black;\n  color: white;\n}\n\n.logo{\n  width: 50px;\n}"
+        }
+    ]
+}

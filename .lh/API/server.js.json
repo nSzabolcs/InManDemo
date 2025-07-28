@@ -1,0 +1,18 @@
+{
+    "sourceFile": "API/server.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753260263788,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753260263788,
+            "name": "Commit-0",
+            "content": "const express = require('express');\nconst mysql = require('mysql2/promise');\nconst cors = require('cors');\n\nconst app = express();\nconst port = 3000;\n\n// CORS engedélyezés\napp.use(cors());\napp.use(express.json({ limit: '10mb' })); // vagy 20mb, ha kell\n\n// MySQL kapcsolat beállítás\nconst pool = mysql.createPool({\n  host: 'localhost',\n  user: 'root',\n  password: '',\n  database: 'inmandemo',\n  waitForConnections: true,\n  connectionLimit: 10,\n});\n\n// SEGÉDFÜGGVÉNY a táblanév biztonságos kezelésére (alap validáció)\nfunction isValidTableName(name) {\n  return /^[a-zA-Z0-9_]+$/.test(name);\n}\n\n// SELECT ALL\napp.get('/api/:table', async (req, res) => {\n  const { table } = req.params;\n  if (!isValidTableName(table)) return res.status(400).send('Invalid table name');\n\n  try {\n    const [rows] = await pool.query(`SELECT * FROM ??`, [table]);\n    res.json(rows);\n  } catch (err) {\n    res.status(500).send(err.message);\n  }\n});\n\n// SELECT BY ID\napp.get('/api/:table/:id', async (req, res) => {\n  const { table, id } = req.params;\n  if (!isValidTableName(table)) return res.status(400).send('Invalid table name');\n\n  try {\n    const [rows] = await pool.query(`SELECT * FROM ?? WHERE id = ?`, [table, id]);\n    if (rows.length === 0) return res.status(404).send('Not found');\n    res.json(rows[0]);\n  } catch (err) {\n    res.status(500).send(err.message);\n  }\n});\n\n// INSERT\napp.post('/api/:table', async (req, res) => {\n  const { table } = req.params;\n  const data = req.body;\n  if (!isValidTableName(table)) return res.status(400).send('Invalid table name');\n\n  try {\n    const [result] = await pool.query(`INSERT INTO ?? SET ?`, [table, data]);\n    res.json({ id: result.insertId });\n  } catch (err) {\n    res.status(500).send(err.message);\n  }\n});\n\n// UPDATE\napp.patch('/api/:table/:id', async (req, res) => {\n  const { table, id } = req.params;\n  const data = req.body;\n  if (!isValidTableName(table)) return res.status(400).send('Invalid table name');\n\n  try {\n    const [result] = await pool.query(`UPDATE ?? SET ? WHERE id = ?`, [table, data, id]);\n    res.json({ affectedRows: result.affectedRows });\n  } catch (err) {\n    res.status(500).send(err.message);\n  }\n});\n\n// DELETE\napp.delete('/api/:table/:id', async (req, res) => {\n  const { table, id } = req.params;\n  if (!isValidTableName(table)) return res.status(400).send('Invalid table name');\n\n  try {\n    const [result] = await pool.query(`DELETE FROM ?? WHERE id = ?`, [table, id]);\n    res.json({ affectedRows: result.affectedRows });\n  } catch (err) {\n    res.status(500).send(err.message);\n  }\n});\n\napp.listen(port, () => {\n  console.log(`API szerver fut: http://localhost:${port}`);\n});\n"
+        }
+    ]
+}

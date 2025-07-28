@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="title">
+        <mat-icon>dashboard</mat-icon>
+        <h2>Helységek kezelése</h2>
+    </div>
+
+    <h3 class="breadcrumb">
+        <a routerLink="/buildings">Főoldal</a>
+        <mat-icon>arrow_right</mat-icon>
+        <a routerLink="/levels/{{currentBuilding?.id}}">{{currentBuilding?.name}} [ {{currentBuilding?.address}} ]</a>
+        <mat-icon>arrow_right</mat-icon>
+        <a href="">{{currentLevel?.name}}</a>
+    </h3>
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Helység űrlap </mat-panel-title>
+                <mat-panel-description>
+                    Új helység hozzáadása / helység adatainak módosítása
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <!-- Name -->
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Helység megnevezése</mat-label>
+                <input matInput placeholder="Add meg a helység nevét..." [(ngModel)]="roomForm.name" name="name">
+            </mat-form-field>
+
+            <!-- Area -->
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Terület (m²)</mat-label>
+                <input matInput type="number" placeholder="Add meg a területet..." [(ngModel)]="roomForm.area"
+                    name="area">
+            </mat-form-field>
+
+            <!-- Description -->
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Leírás</mat-label>
+                <textarea matInput placeholder="Add meg a leírást..." rows="3" [(ngModel)]="roomForm.description"
+                    name="description"></textarea>
+            </mat-form-field>
+
+            <!-- Status -->
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Státusz</mat-label>
+                <mat-select [(ngModel)]="roomForm.status" name="status">
+                    <mat-option [value]="0">Üres</mat-option>
+                    <mat-option [value]="1">Kiadva</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Save Button -->
+            <button mat-flat-button color="primary" (click)="save()">
+                <mat-icon>save</mat-icon> Mentés
+            </button>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="mat-elevation-z8">
+        <table mat-table matSort [dataSource]="dataSource">
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id" class="hide">
+                <th mat-header-cell *matHeaderCellDef class="hide"> # </th>
+                <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                      {{ i + 1 + (paginator.pageIndex * paginator.pageSize) }}.
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Megnevezés </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Area Column -->
+            <ng-container matColumnDef="area">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Terület</th>
+                <td mat-cell *matCellDef="let element"> {{element.area}} m<sup>2</sup></td>
+            </ng-container>
+
+
+            <!-- Details Column -->
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Részletek </th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.description || '-' }}
+                </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Státusz</th>
+                <td mat-cell *matCellDef="let element"> {{element.status == 0 ? 'Üres' : 'Kiadva'}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="text-end"> Műveletek </th>
+                <td mat-cell *matCellDef="let element" class="text-end">
+
+
+                    <button mat-icon-button color="primary" (click)="onEdit(element)" title="Épület módosítása">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="onDelete(element)" title="Épület törlése">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+    </div>
+
+    <button mat-flat-button color="primary" routerLink="/levels/{{buildingId}}">
+        <mat-icon>keyboard_backspace</mat-icon>Vissza
+    </button>
+</div>

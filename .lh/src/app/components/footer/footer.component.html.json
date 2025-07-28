@@ -1,0 +1,114 @@
+{
+    "sourceFile": "src/app/components/footer/footer.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 24,
+            "patches": [
+                {
+                    "date": 1753360881532,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753360901101,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,4 @@\n+<div class=\"footer\">\n+  <img src=\"./assets/lionstack.png\" alt=\"[Lions]\">\n+  Lion Stack - 2025.\n+</div>\n"
+                },
+                {
+                    "date": 1753360907396,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"./assets/lionstack.png\" alt=\"[Lions]\">\n+  <img src=\"assets/lionstack.png\" alt=\"[Lions]\">\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753360915113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[Lions]\">\n+  <img src=\"./lionstack.png\" alt=\"[Lions]\">\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753360927457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"./lionstack.png\" alt=\"[Lions]\">\n+  <img src=\"../../../assets/lionstack.png\" alt=\"[Lions]\">\n   Lion Stack - 2025.\n </div>\n-<div class=\"footer\">\n-  <img src=\"./assets/lionstack.png\" alt=\"\">\n-  Lion Stack - 2025.\n-</div>\n"
+                },
+                {
+                    "date": 1753360947685,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"../../../assets/lionstack.png\" alt=\"[Lions]\">\n+  <img src=\"../../../assets/lionstack.png\" alt=\"[o|o]\">\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753360970035,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"../../../assets/lionstack.png\" alt=\"[o|o]\">\n+  <img src=\"lionstack.png\" alt=\"[o|o]\">\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753361040135,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"lionstack.png\" alt=\"[o|o]\">\n+  <img src=\"assets/lionstack.png\" alt=\"[o|o]\">\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753361140359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[o|o]\">\n+  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\">\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753361164497,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n <div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\">\n+  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\"><br>\n   Lion Stack - 2025.\n </div>\n"
+                },
+                {
+                    "date": 1753361236134,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,14 @@\n+<div class=\"footer\">\n+  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n+\n+  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n+  <em>Innovatív megoldások digitális terekhez</em><br><br>\n+\n+  <a href=\"mailto:info@lionstack.hu\">info@lionstack.hu</a> |\n+  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n+\n+  <div class=\"social-icons\">\n+    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n+    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361245621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,4 @@\n     <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n     <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n   </div>\n </div>\n-<div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\"><br>\n-  Lion Stack - 2025.\n-</div>\n"
+                },
+                {
+                    "date": 1753361267603,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \n   <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n   <em>Innovatív megoldások digitális terekhez</em><br><br>\n \n-  <a href=\"mailto:info@lionstack.hu\">info@lionstack.hu</a> |\n+  <a href=\"mailto:info@lionstack.hu\">info'@'lionstack.hu</a> |\n   <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n \n   <div class=\"social-icons\">\n     <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n"
+                },
+                {
+                    "date": 1753361278254,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,14 @@\n+<div class=\"footer\">\n+  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n+\n+  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n+  <em>Innovatív megoldások digitális terekhez</em><br><br>\n+\n+  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n+  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n+\n+  <div class=\"social-icons\">\n+    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n+    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361313613,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+<div class=\"footer\">\n+  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n+\n+  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n+  <em>\n+Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n+</em><br><br>\n+\n+  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n+  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n+\n+  <div class=\"social-icons\">\n+    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n+    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361408958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+<div class=\"footer\">\n+  <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n+\n+  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n+  <em>\n+Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n+</em><br><br>\n+\n+  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n+  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n+\n+  <div class=\"social-icons\">\n+    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n+    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361416719,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n <div class=\"footer\">\n-  <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n+  <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"300\"><br>\n \n   <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n   <em>\n Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n"
+                },
+                {
+                    "date": 1753361423038,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+<div class=\"footer\">\n+  <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" ><br>\n+\n+  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n+  <em>\n+Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n+</em><br><br>\n+\n+  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n+  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n+\n+  <div class=\"social-icons\">\n+    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n+    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361446632,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,76 +1,13 @@\n <div class=\"footer\">\n   <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" ><br>\n \n   <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n-  <em>\n-Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n-</em><br><br>\n-\n+ <em>Innovatív megoldások digitális terekhez</em><br><br>\n   <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n   <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n \n   <div class=\"social-icons\">\n     <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n     <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n   </div>\n </div>\n-<div class=\"footer\">\n-  <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"300\"><br>\n-\n-  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n-  <em>\n-Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n-</em><br><br>\n-\n-  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n-  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n-\n-  <div class=\"social-icons\">\n-    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n-    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n-  </div>\n-</div>\n-<div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n-\n-  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n-  <em>\n-Egyedi fejlesztések, API integrációk, modern weboldalak és WooCommerce megoldások – stabil, gyors és célorientált rendszerek, hogy vállalkozása hatékonyabban működjön.\n-</em><br><br>\n-\n-  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n-  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n-\n-  <div class=\"social-icons\">\n-    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n-    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n-  </div>\n-</div>\n-<div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n-\n-  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n-  <em>Innovatív megoldások digitális terekhez</em><br><br>\n-\n-  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n-  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n-\n-  <div class=\"social-icons\">\n-    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n-    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n-  </div>\n-</div>\n-<div class=\"footer\">\n-  <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"100\"><br>\n-\n-  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n-  <em>Innovatív megoldások digitális terekhez</em><br><br>\n-\n-  <a href=\"mailto:info@lionstack.hu\">info'@'lionstack.hu</a> |\n-  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n-\n-  <div class=\"social-icons\">\n-    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n-    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n-  </div>\n-</div>\n"
+                },
+                {
+                    "date": 1753361561898,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,25 @@\n+<div class=\"footer\">\n+  <div class=\"footer-left\">\n+    <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"80\">\n+    <div class=\"slogan\">\n+      <strong>Lion Stack Kft.</strong><br>\n+      <em>Innovatív megoldások digitális terekhez</em><br>\n+      &copy; 2025\n+    </div>\n+  </div>\n+\n+  <div class=\"footer-right\">\n+    <div class=\"links\">\n+      <a href=\"mailto:info@lionstack.hu\">info@lionstack.hu</a><br>\n+      <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a>\n+    </div>\n+    <div class=\"social-icons\">\n+      <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\">\n+        <img src=\"assets/github.svg\" alt=\"GitHub\">\n+      </a>\n+      <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\">\n+        <img src=\"assets/linkedin.svg\" alt=\"LinkedIn\">\n+      </a>\n+    </div>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361572224,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n <div class=\"footer\">\n   <div class=\"footer-left\">\n-    <img src=\"assets/lionstack.png\" alt=\"[o|o]\" class=\"logo\" width=\"80\">\n+    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"80\">\n     <div class=\"slogan\">\n       <strong>Lion Stack Kft.</strong><br>\n       <em>Innovatív megoldások digitális terekhez</em><br>\n       &copy; 2025\n@@ -22,17 +22,4 @@\n       </a>\n     </div>\n   </div>\n </div>\n-<div class=\"footer\">\n-  <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" ><br>\n-\n-  <strong>Lion Stack Kft.</strong> &copy; 2025<br>\n- <em>Innovatív megoldások digitális terekhez</em><br><br>\n-  <a href=\"mailto:info@lionstack.hu\">info[a]lionstack.hu</a> |\n-  <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a><br>\n-\n-  <div class=\"social-icons\">\n-    <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\"><img src=\"assets/github.svg\" alt=\"GitHub\" /></a>\n-    <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\"><img src=\"assets/linkedin.svg\" alt=\"LinkedIn\" /></a>\n-  </div>\n-</div>\n"
+                },
+                {
+                    "date": 1753361581034,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,25 @@\n+<div class=\"footer\">\n+  <div class=\"footer-left\">\n+    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"80\">\n+    <div class=\"slogan\">\n+      <strong>Lion Stack Kft.</strong><br>\n+      <em>Innovatív megoldások digitális terekhez</em><br>\n+      &copy; 2025\n+    </div>\n+  </div>\n+\n+  <div class=\"footer-right\">\n+    <div class=\"links\">\n+      <a href=\"mailto:info@lionstack.hu\">info kukac lionstack.hu</a><br>\n+      <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a>\n+    </div>\n+    <div class=\"social-icons\">\n+      <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\">\n+        <img src=\"assets/github.svg\" alt=\"GitHub\">\n+      </a>\n+      <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\">\n+        <img src=\"assets/linkedin.svg\" alt=\"LinkedIn\">\n+      </a>\n+    </div>\n+  </div>\n+</div>\n"
+                },
+                {
+                    "date": 1753361620206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n <div class=\"footer\">\n   <div class=\"footer-left\">\n-    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"80\">\n+    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"200\">\n     <div class=\"slogan\">\n       <strong>Lion Stack Kft.</strong><br>\n       <em>Innovatív megoldások digitális terekhez</em><br>\n       &copy; 2025\n@@ -22,29 +22,4 @@\n       </a>\n     </div>\n   </div>\n </div>\n-<div class=\"footer\">\n-  <div class=\"footer-left\">\n-    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"80\">\n-    <div class=\"slogan\">\n-      <strong>Lion Stack Kft.</strong><br>\n-      <em>Innovatív megoldások digitális terekhez</em><br>\n-      &copy; 2025\n-    </div>\n-  </div>\n-\n-  <div class=\"footer-right\">\n-    <div class=\"links\">\n-      <a href=\"mailto:info@lionstack.hu\">info@lionstack.hu</a><br>\n-      <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a>\n-    </div>\n-    <div class=\"social-icons\">\n-      <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\">\n-        <img src=\"assets/github.svg\" alt=\"GitHub\">\n-      </a>\n-      <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\">\n-        <img src=\"assets/linkedin.svg\" alt=\"LinkedIn\">\n-      </a>\n-    </div>\n-  </div>\n-</div>\n"
+                },
+                {
+                    "date": 1753361644525,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n <div class=\"footer\">\n   <div class=\"footer-left\">\n-    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"200\">\n+    <img src=\"assets/Lionstack.webp\" alt=\"[o|o]\" class=\"logo\" width=\"150\">\n     <div class=\"slogan\">\n       <strong>Lion Stack Kft.</strong><br>\n       <em>Innovatív megoldások digitális terekhez</em><br>\n       &copy; 2025\n"
+                },
+                {
+                    "date": 1753367046826,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,12 +14,12 @@\n       <a href=\"https://lionstack.hu\" target=\"_blank\">www.lionstack.hu</a>\n     </div>\n     <div class=\"social-icons\">\n       <a href=\"https://github.com/lionstack\" target=\"_blank\" title=\"GitHub\">\n-        <img src=\"assets/github.svg\" alt=\"GitHub\">\n+        GitHub\n       </a>\n       <a href=\"https://linkedin.com/company/lionstack\" target=\"_blank\" title=\"LinkedIn\">\n-        <img src=\"assets/linkedin.svg\" alt=\"LinkedIn\">\n+        LinkedIn\n       </a>\n     </div>\n   </div>\n </div>\n"
+                }
+            ],
+            "date": 1753360881532,
+            "name": "Commit-0",
+            "content": "<div class=\"footer\">\n  <img src=\"./assets/lionstack.png\" alt=\"\">\n  Lion Stack - 2025.\n</div>\n"
+        }
+    ]
+}

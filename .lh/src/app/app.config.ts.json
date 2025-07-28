@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/app.config.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753431484384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753431484384,
+            "name": "Commit-0",
+            "content": "import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';\nimport { provideRouter } from '@angular/router';\n\nimport { routes } from './app.routes';\nimport { provideAnimationsAsync } from '@angular/platform-browser/animations/async';\nimport { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';\nimport { LoadingInterceptor } from './interceptors/loading.interceptor';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(),    provideHttpClient(withInterceptorsFromDi()),\n    {\n      provide: HTTP_INTERCEPTORS,\n      useClass: LoadingInterceptor,\n      multi: true\n    }]\n};\n"
+        }
+    ]
+}

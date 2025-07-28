@@ -1,0 +1,18 @@
+{
+    "sourceFile": ".htaccess",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753270340803,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753270340803,
+            "name": "Commit-0",
+            "content": "RewriteEngine On\nRewriteBase /InManDemo/\n\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule ^api(/.*)?$ PHPAPI/server.php [QSA,L]\n"
+        }
+    ]
+}

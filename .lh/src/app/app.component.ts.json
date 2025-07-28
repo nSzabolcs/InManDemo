@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/app.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753431687374,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753431687374,
+            "name": "Commit-0",
+            "content": "import { Component } from '@angular/core';\nimport { RouterOutlet } from '@angular/router';\nimport { HeaderComponent } from './components/header/header.component';\nimport { NavbarComponent } from './components/navbar/navbar.component';\nimport { FooterComponent } from './components/footer/footer.component';\n import {MatSnackBarModule} from '@angular/material/snack-bar';\nimport { SpinnerComponent } from './components/spinner/spinner.component';\n\n@Component({\n  selector: 'app-root',\n  standalone: true,\n  imports: [RouterOutlet, HeaderComponent, NavbarComponent, FooterComponent, MatSnackBarModule, SpinnerComponent],\n  templateUrl: './app.component.html',\n  styleUrl: './app.component.scss'\n})\n\nexport class AppComponent {\n  title = 'InMan Demo';\n}\n"
+        }
+    ]
+}

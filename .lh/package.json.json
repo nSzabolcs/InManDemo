@@ -1,0 +1,18 @@
+{
+    "sourceFile": "package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753345840415,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753345840415,
+            "name": "Commit-0",
+            "content": "{\n  \"name\": \"in-man-demo\",\n  \"version\": \"0.0.0\",\n  \"scripts\": {\n    \"ng\": \"ng\",\n    \"start\": \"ng serve\",\n    \"build\": \"ng build --base-href /InManDemo/\",\n    \"watch\": \"ng build --watch --configuration development\",\n    \"test\": \"ng test\"\n  },\n  \"private\": true,\n  \"dependencies\": {\n    \"@angular/animations\": \"^18.0.0\",\n    \"@angular/cdk\": \"^18.2.14\",\n    \"@angular/common\": \"^18.0.0\",\n    \"@angular/compiler\": \"^18.0.0\",\n    \"@angular/core\": \"^18.0.0\",\n    \"@angular/forms\": \"^18.0.0\",\n    \"@angular/material\": \"^18.2.14\",\n    \"@angular/platform-browser\": \"^18.0.0\",\n    \"@angular/platform-browser-dynamic\": \"^18.0.0\",\n    \"@angular/router\": \"^18.0.0\",\n    \"fabric\": \"^6.7.0\",\n    \"fabricjs\": \"^1.0.0\",\n    \"material-icons\": \"^1.13.14\",\n    \"rxjs\": \"~7.8.0\",\n    \"tslib\": \"^2.3.0\",\n    \"zone.js\": \"~0.14.3\"\n  },\n  \"devDependencies\": {\n    \"@angular-devkit/build-angular\": \"^18.0.7\",\n    \"@angular/cli\": \"^18.0.7\",\n    \"@angular/compiler-cli\": \"^18.0.0\",\n    \"@types/jasmine\": \"~5.1.0\",\n    \"jasmine-core\": \"~5.1.0\",\n    \"karma\": \"~6.4.0\",\n    \"karma-chrome-launcher\": \"~3.2.0\",\n    \"karma-coverage\": \"~2.2.0\",\n    \"karma-jasmine\": \"~5.1.0\",\n    \"karma-jasmine-html-reporter\": \"~2.1.0\",\n    \"typescript\": \"~5.4.2\"\n  }\n}\n"
+        }
+    ]
+}

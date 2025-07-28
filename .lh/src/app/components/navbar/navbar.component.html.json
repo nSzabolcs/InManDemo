@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/components/navbar/navbar.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1753445776715,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753445798540,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n <mat-toolbar color=\"primary\">\n-  <mat-icon aria-hidden=\"false\" aria-label=\"Example home icon\" fontIcon=\"business\"></mat-icon>&nbsp;\n+  <mat-icon aria-hidden=\"false\" aria-label=\"Example home icon\" fontIcon=\"domain_disabled\"></mat-icon>&nbsp;\n   <span>InMan Demo</span>\n   <span class=\"spacer\"></span>\n   <nav>\n     <a mat-button routerLink=\"/\">Épületek</a>\n"
+                },
+                {
+                    "date": 1753445815852,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,8 @@\n+<mat-toolbar color=\"primary\">\n+  <mat-icon aria-hidden=\"false\" aria-label=\"Example home icon\" fontIcon=\"home\"></mat-icon>&nbsp;\n+  <span>InMan Demo</span>\n+  <span class=\"spacer\"></span>\n+  <nav>\n+    <a mat-button routerLink=\"/\">Épületek</a>\n+  </nav>\n+</mat-toolbar>\n"
+                }
+            ],
+            "date": 1753445776715,
+            "name": "Commit-0",
+            "content": "<mat-toolbar color=\"primary\">\n  <mat-icon aria-hidden=\"false\" aria-label=\"Example home icon\" fontIcon=\"business\"></mat-icon>&nbsp;\n  <span>InMan Demo</span>\n  <span class=\"spacer\"></span>\n  <nav>\n    <a mat-button routerLink=\"/\">Épületek</a>\n  </nav>\n</mat-toolbar>\n"
+        }
+    ]
+}

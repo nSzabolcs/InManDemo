@@ -1,0 +1,522 @@
+<div class="container">
+  <div class="title">
+    <mat-icon>wallpaper</mat-icon>
+    <h2> Alaprajz szerkesztése</h2>
+  </div>
+  <h3 class="breadcrumb">
+    <a routerLink="/buildings">Főoldal</a>
+    <mat-icon>arrow_right</mat-icon>
+    <a routerLink="/levels/{{currentBuilding?.id}}">{{currentBuilding?.name}} [ {{currentBuilding?.address}} ]</a>
+    <mat-icon>arrow_right</mat-icon>
+    <a href="">{{currentLevel?.name}}</a>
+  </h3>
+
+  <div class="toolbar">
+
+    <mat-button-toggle-group name="modeselect" [(ngModel)]="mode" (change)="onModeChange()"
+      [hideSingleSelectionIndicator]="true">
+      <mat-button-toggle value="select" title="Kijelölés"><mat-icon>arrow_upward</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="line" title="Vonal"><mat-icon>remove</mat-icon> </mat-button-toggle>
+      <mat-button-toggle value="polyline" title="Vonallánc"><mat-icon> show_chart</mat-icon> </mat-button-toggle>
+      <mat-button-toggle value="rect" title="Téglalap"><mat-icon>crop_square</mat-icon> </mat-button-toggle>
+      <mat-button-toggle value="ellipse"
+        title="Ellipszis"><mat-icon>radio_button_unchecked</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="polygon" title="Poligon"><mat-icon>star_border</mat-icon> </mat-button-toggle>
+      <mat-button-toggle value="textbox" title="Szöveg"><mat-icon> text_fields</mat-icon> </mat-button-toggle>
+      <mat-button-toggle value="image" title="Kép"><mat-icon> image</mat-icon> </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div class="mat-button-group">
+
+      <button mat-flat-button color="primary" (click)="copy()" class="ml" title="Másolás">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <button mat-flat-button color="primary" (click)="paste()" class="ml" title="Beillesztés">
+        <mat-icon>content_paste</mat-icon>
+      </button>
+
+
+      <button mat-flat-button (click)="undo()" [disabled]="undoStack.length === 0" class="ml" color="primary"
+        title="Mégse">
+        <mat-icon>undo</mat-icon>
+      </button>
+
+      <button mat-flat-button (click)="redo()" [disabled]="redoStack.length === 0" class="ml" color="primary"
+        title="Mégis">
+        <mat-icon>redo</mat-icon>
+      </button>
+
+    </div>
+
+  </div>
+  <div class="toolbar">
+
+    <canvas id="canvas-id"></canvas>
+
+    <div class="details">
+
+      <mat-tab-group [(selectedIndex)]="activeTabIndex">
+        <mat-tab label="Tulajdonságok">
+          <div class="elements-scroll">
+            <div *ngIf="!isObjectSelected && mode=='select'" class="text-center">
+              <h5>Válassz ki egy elemet!</h5>
+            </div>
+
+            <!-- TEXT DETAILS -->
+            <div *ngIf="showTextPanel" class="text-settings">
+              <h3 class="title">Szöveg tulajdonságok</h3>
+              <hr>
+              <table class="text-settings-table w-100">
+                <tr>
+                  <td valign="top"><label>Szöveg:</label></td>
+                  <td><textarea [(ngModel)]="formTextStyle.text" (change)="applyTextStyle()"
+                      class="textarea"></textarea></td>
+                </tr>
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formTextStyle.name" (change)="applyTextStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label for="text-color">Szín:</label></td>
+                  <td>
+                    <input id="text-color" type="color" [(ngModel)]="formTextStyle.fill" (change)="applyTextStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="text-size">Méret:</label></td>
+                  <td>
+                    <input id="text-size" type="number" [(ngModel)]="formTextStyle.fontSize"
+                      (change)="applyTextStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="text-font">Betűtípus:</label></td>
+                  <td>
+                    <select id="text-font" [(ngModel)]="formTextStyle.fontFamily" (change)="applyTextStyle()">
+                      <option value="Arial">Arial</option>
+                      <option value="Courier New">Courier New</option>
+                      <option value="Georgia">Georgia</option>
+                      <option value="Times New Roman">Times New Roman</option>
+                      <option value="Verdana">Verdana</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="text-align">Igazítás:</label></td>
+                  <td>
+                    <select id="text-align" [(ngModel)]="formTextStyle.textAlign" (change)="applyTextStyle()">
+                      <option value="left">Balra</option>
+                      <option value="center">Középre</option>
+                      <option value="right">Jobbra</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="4" valign="top"><br>Betűstílus:</td>
+                  <td>
+                    <mat-checkbox [checked]="formTextStyle.fontWeight === 'bold'"
+                      (change)="formTextStyle.fontWeight = $event.checked ? 'bold' : 'normal'; applyTextStyle()"
+                      color="primary">
+                      Félkövér
+                    </mat-checkbox>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-checkbox [checked]="formTextStyle.fontStyle === 'italic'"
+                      (change)="formTextStyle.fontStyle = $event.checked ? 'italic' : 'normal'; applyTextStyle()"
+                      color="primary">
+                      Dőlt
+                    </mat-checkbox>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-checkbox [(ngModel)]="formTextStyle.underline" [ngModelOptions]="{standalone: true}"
+                      (change)="applyTextStyle()" color="primary">
+                      Aláhúzott
+                    </mat-checkbox>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <mat-checkbox [(ngModel)]="formTextStyle.linethrough" [ngModelOptions]="{standalone: true}"
+                      (change)="applyTextStyle()" color="primary">
+                      Áthúzott
+                    </mat-checkbox>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- LINE DETAILS -->
+            <div *ngIf="showLinePanel" class="line-settings">
+              <h3 class="title">Vonal tulajdonságok</h3>
+              <hr>
+              <table>
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formLineStyle.name" (change)="applyLineStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label>Szín:</label></td>
+                  <td><input type="color" [(ngModel)]="formLineStyle.stroke" (change)="applyLineStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label>Vastagság:</label></td>
+                  <td><input type="number" [(ngModel)]="formLineStyle.strokeWidth" (change)="applyLineStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label>Stílus:</label></td>
+                  <td>
+                    <select [(ngModel)]="formLineStyle.strokeDashArray" (change)="applyLineStyle()">
+                      <option value="solid">Folytonos</option>
+                      <option value="dashed">Szaggatott</option>
+                      <option value="dotted">Pontozott</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- POLYLINE DETAILS -->
+            <div *ngIf="showPolylinePanel" class="line-settings">
+              <h3 class="title">Vonallánc tulajdonságok</h3>
+              <hr>
+              <table class="text-settings-table">
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formPolylineStyle.name" (change)="applyPolylineStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label for="polyline-color">Szín:</label></td>
+                  <td>
+                    <input id="polyline-color" type="color" [(ngModel)]="formPolylineStyle.stroke"
+                      (change)="applyPolylineStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="polyline-width">Vastagság:</label></td>
+                  <td>
+                    <input id="polyline-width" type="number" [(ngModel)]="formPolylineStyle.strokeWidth"
+                      (change)="applyPolylineStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="polyline-style">Stílus:</label></td>
+                  <td>
+                    <select id="polyline-style" [(ngModel)]="formPolylineStyle.strokeDashArray"
+                      (change)="applyPolylineStyle()">
+                      <option value="solid">Folytonos</option>
+                      <option value="dashed">Szaggatott</option>
+                      <option value="dotted">Pontozott</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- RECT DETAILS -->
+            <div *ngIf="showRectPanel" class="rect-settings">
+              <h3 class="title">Téglalap tulajdonságok</h3>
+              <hr>
+              <table class="text-settings-table">
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formRectStyle.name" (change)="applyRectStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label for="rect-stroke">Vonal szín:</label></td>
+                  <td><input id="rect-stroke" type="color" [(ngModel)]="formRectStyle.stroke"
+                      (change)="applyRectStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="rect-stroke-width">Vastagság:</label></td>
+                  <td><input id="rect-stroke-width" type="number" [(ngModel)]="formRectStyle.strokeWidth"
+                      (change)="applyRectStyle()" /></td>
+                </tr>
+                <tr>
+                  <td><label for="rect-stroke-style">Vonalstílus:</label></td>
+                  <td>
+                    <select id="rect-stroke-style" [(ngModel)]="formRectStyle.strokeDashArray"
+                      (change)="applyRectStyle()">
+                      <option value="solid">Folytonos</option>
+                      <option value="dashed">Szaggatott</option>
+                      <option value="dotted">Pontozott</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="rect-fill">Kitöltés:</label></td>
+                  <td><input id="rect-fill" type="color" [(ngModel)]="formRectStyle.fill" (change)="applyRectStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="fill-opacity">Áttetszőség:</label></td>
+                  <td>
+                    <mat-slider [min]="0" [max]="100" [step]="1" value="formRectStyle.fillOpacity"
+                      (input)="onOpacityChange($event)" class="w-100">
+                      <input matSliderThumb [value]="formRectStyle.fillOpacity">
+                    </mat-slider>
+                    <span>{{ formRectStyle.fillOpacity }}%</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Terület</td>
+                  <td><mat-checkbox [(ngModel)]="showArea" (change)="toggleAreaLabel(selectedRectObject)"
+                      color="primary">
+                      Terület megjelenítése</mat-checkbox></td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- ELLIPSE DETAILS -->
+            <div *ngIf="showEllipsePanel" class="ellipse-settings">
+              <h3 class="title">Ellipszis tulajdonságok</h3>
+              <hr>
+              <table class="text-settings-table">
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formEllipseStyle.name" (change)="applyEllipseStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label for="ellipse-stroke">Vonal szín:</label></td>
+                  <td>
+                    <input id="ellipse-stroke" type="color" [(ngModel)]="formEllipseStyle.stroke"
+                      (change)="applyEllipseStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="ellipse-stroke-width">Vastagság:</label></td>
+                  <td>
+                    <input id="ellipse-stroke-width" type="number" [(ngModel)]="formEllipseStyle.strokeWidth"
+                      (change)="applyEllipseStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="ellipse-stroke-style">Vonalstílus:</label></td>
+                  <td>
+                    <select id="ellipse-stroke-style" [(ngModel)]="formEllipseStyle.strokeDashArray"
+                      (change)="applyEllipseStyle()">
+                      <option value="solid">Folytonos</option>
+                      <option value="dashed">Szaggatott</option>
+                      <option value="dotted">Pontozott</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="ellipse-fill">Kitöltés:</label></td>
+                  <td>
+                    <input id="ellipse-fill" type="color" [(ngModel)]="formEllipseStyle.fill"
+                      (change)="applyEllipseStyle()" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label>Áttetszőség:</label></td>
+                  <td>
+                    <mat-slider [min]="0" [max]="100" [step]="1" (input)="onEllipseOpacityChange($event)" class="w-100">
+                      <input matSliderThumb [value]="formEllipseStyle.fillOpacity">
+                    </mat-slider>
+                    <span>{{ formEllipseStyle.fillOpacity }}%</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Terület</td>
+                  <td><mat-checkbox [(ngModel)]="showArea" (change)="toggleAreaLabel(selectedPolygonObject)"
+                      color="primary">Terület megjelenítése</mat-checkbox></td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- POLYGON SETTINGS -->
+            <div *ngIf="showPolygonPanel" class="rect-settings">
+              <h3 class="title">Poligon tulajdonságok</h3>
+              <hr>
+              <table class="text-settings-table">
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formPolygonStyle.name" (change)="applyPolygonStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label for="polygon-stroke">Vonal szín:</label></td>
+                  <td><input id="polygon-stroke" type="color" [(ngModel)]="formPolygonStyle.stroke"
+                      (change)="applyPolygonStyle()" /></td>
+                </tr>
+                <tr>
+                  <td><label for="polygon-stroke-width">Vastagság:</label></td>
+                  <td><input id="polygon-stroke-width" type="number" [(ngModel)]="formPolygonStyle.strokeWidth"
+                      (change)="applyPolygonStyle()" /></td>
+                </tr>
+                <tr>
+                  <td><label for="polygon-stroke-style">Stílus:</label></td>
+                  <td>
+                    <select id="polygon-stroke-style" [(ngModel)]="formPolygonStyle.strokeDashArray"
+                      (change)="applyPolygonStyle()">
+                      <option value="solid">Folytonos</option>
+                      <option value="dashed">Szaggatott</option>
+                      <option value="dotted">Pontozott</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="polygon-fill">Kitöltés:</label></td>
+                  <td><input id="polygon-fill" type="color" [(ngModel)]="formPolygonStyle.fill"
+                      (change)="applyPolygonStyle()" /></td>
+                </tr>
+                <tr>
+                  <td><label for="polygon-opacity">Áttetszőség:</label></td>
+                  <td>
+                    <mat-slider [min]="0" [max]="100" [step]="1" (input)="onPolygonOpacityChange($event)" class="w-100">
+                      <input matSliderThumb [value]="formPolygonStyle.fillOpacity">
+                    </mat-slider>
+                    <span>{{ formPolygonStyle.fillOpacity }}%</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Terület</td>
+                  <td><mat-checkbox [(ngModel)]="showArea" (change)="toggleAreaLabel(selectedPolygonObject)"
+                      color="primary">Terület megjelenítése</mat-checkbox></td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- IMAGE SETTINGS -->
+            <div *ngIf="showImagePanel" class="property-panel">
+              <h3 class="title">Kép tulajdonságok</h3>
+              <hr>
+              <table class="form-table">
+                <tr>
+                  <td><label for="imageName">Címke:</label></td>
+                  <td><input id="imageName" type="text" [(ngModel)]="formImageStyle.name" (change)="applyImageStyle()">
+                  </td>
+                </tr>
+
+                <tr *ngIf="!selectedImageObject">
+                  <td><label>Képfájl:</label></td>
+                  <td><input type="file" (change)="onImageSelected($event)" accept="image/*"></td>
+                </tr>
+
+                <ng-container *ngIf="selectedImageObject">
+                  <tr>
+                    <td><label for="imageOpacity">Átlátszóság:</label></td>
+                    <td>
+                      <input id="imageOpacity" type="range" min="0" max="1" step="0.05"
+                        [(ngModel)]="formImageStyle.opacity" (input)="applyImageStyle()">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="imageScaleX">Szélesség arány:</label></td>
+                    <td><input id="imageScaleX" type="number" step="0.1" [(ngModel)]="formImageStyle.scaleX"
+                        (change)="applyImageStyle()"></td>
+                  </tr>
+                  <tr>
+                    <td><label for="imageScaleY">Magasság arány:</label></td>
+                    <td><input id="imageScaleY" type="number" step="0.1" [(ngModel)]="formImageStyle.scaleY"
+                        (change)="applyImageStyle()"></td>
+                  </tr>
+                  <tr>
+                    <td><label for="imageAngle">Forgatás:</label></td>
+                    <td><input id="imageAngle" type="number" step="1" [(ngModel)]="formImageStyle.angle"
+                        (change)="applyImageStyle()"></td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+
+
+            <!-- LAYER-CONTROL -->
+            <div class="layer-controls" *ngIf="isObjectSelected">
+              <h3>Réteg kezelés</h3>
+              <hr>
+              <button mat-icon-button (click)="bringToFront()"
+                title="Előre hozás"><mat-icon>vertical_align_top</mat-icon></button>
+              <button mat-icon-button (click)="bringForward()"
+                title="Előrébb hozás"><mat-icon>arrow_upward</mat-icon></button>
+              <button mat-icon-button (click)="sendBackward()"
+                title="Hátrébb küldés"><mat-icon>arrow_downward</mat-icon></button>
+              <button mat-icon-button (click)="sendToBack()"
+                title="Hátra küldés"><mat-icon>vertical_align_bottom</mat-icon></button>
+              <hr>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Elemek">
+          <div class="elements-scroll">
+
+            <input type="text" placeholder="Keresés..." [(ngModel)]="elementSearch" class="search-input" />
+
+            <ul class="object-list">
+              <li *ngFor="let obj of objectList | objectFilter:elementSearch"
+                [class.active-object]="isThisObjectSelected(obj)">
+                <span>{{ getObjectLabel(obj) }}</span>
+                <span class="slim">{{obj.type}}</span>
+                <span>
+
+                  <button mat-icon-button (click)="toggleLock(obj)">
+                    <mat-icon class="small-icon">{{ obj.lockMovementX ? 'lock' : 'lock_open' }}</mat-icon>
+                  </button>
+
+                  <button mat-icon-button (click)="toggleVisibility(obj)">
+                    <mat-icon class="small-icon">{{ obj.visible ? 'visibility' : 'visibility_off' }}</mat-icon>
+                  </button>
+
+                  <button mat-icon-button
+                    (click)="canvas.setActiveObject(obj); canvas.renderAll(); activeTabIndex = 0;">
+                    <mat-icon class="small-icon">edit</mat-icon>
+                  </button>
+                </span>
+              </li>
+            </ul>
+
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+
+    </div>
+  </div>
+
+  <div *ngIf="editingObject" class="editor-banner">
+    <span>Szerkesztő mód aktív - Nyomd meg az <strong>ESC</strong> gombot a kilépéshez.</span>
+    <button (click)="disableVertexEditing()">Kilépés</button>
+  </div>
+
+  <mat-checkbox class="example-margin" color="primary" [(ngModel)]="gridSnapEnabled">Rácshoz igazítás</mat-checkbox>
+
+  <small class="ms-1">Zoom: <strong>{{ zoom | number:'1.2-2' }}</strong> (Egérgörgő) | Pan: középső vagy jobb egérgomb
+    húzással</small>
+
+  <br><br>
+  <button mat-flat-button color="primary" routerLink="/levels/{{buildingId}}">
+    <mat-icon>keyboard_backspace</mat-icon>Vissza</button>
+  <button mat-flat-button color="primary" (click)="saveToDatabase()" class="ms-1"><mat-icon>save</mat-icon>
+    Mentés</button>
+  <button mat-flat-button color="primary" (click)="downloadSvg()" class="ms-1"><mat-icon>download</mat-icon> Letöltés
+    SVG-be</button>
+  <button mat-flat-button color="primary" (click)="fileInput.click()" class="ms-1"><mat-icon>upload</mat-icon>Betöltés
+    SVG-ből</button>
+  <input type="file" accept=".svg" style="display: none;" #fileInput (change)="onFileSelected($event)" />
+
+  <button mat-flat-button color="primary" (click)="resetView()" title="Nézet alaphelyzetbe állítása" class="ms-1">
+    <mat-icon>fullscreen</mat-icon>
+    Alaphelyzet
+  </button>
+
+  <button mat-flat-button color="primary" (click)="zoomToFit()" class="ms-1">
+    <mat-icon>settings_overscan</mat-icon>Teljes nézet
+  </button>
+
+  <button mat-flat-button color="warn" (click)="deleteSelectedObjects()" title="Rajzlap törlése" class="ms-1">
+    <mat-icon>cancel_presentation</mat-icon>
+    Törlés
+  </button>
+
+  <button mat-flat-button color="warn" (click)="clearCanvas()" class="ms-1">
+    <mat-icon>delete_forever</mat-icon>
+    Mindent töröl
+  </button>
+</div>

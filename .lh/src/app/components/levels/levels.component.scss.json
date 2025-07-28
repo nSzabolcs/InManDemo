@@ -1,0 +1,122 @@
+{
+    "sourceFile": "src/app/components/levels/levels.component.scss",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 26,
+            "patches": [
+                {
+                    "date": 1753358123024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753358130696,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,19 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+img{\n+  border: 1px solid silver;\n+  padding: 6px;\n+  border-radius: 6px;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358196860,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,27 +11,9 @@\n .text-end{\n   text-align: right !important;\n }\n \n-img{\n+.thumbnail{\n   border: 1px solid silver;\n   padding: 6px;\n   border-radius: 6px;\n-}\n-.mat-elevation-z8{\n-  margin-top: 20px !important;\n-  margin-bottom: 20px !important;\n-}\n-\n-.w-100 {\n-  width: 100%;\n-}\n-\n-\n-.text-end{\n-  text-align: right !important;\n-}\n-\n-img{\n-  border: 1px solid silver;\n-  padding: 6px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358216886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,5 +15,6 @@\n .thumbnail{\n   border: 1px solid silver;\n   padding: 6px;\n   border-radius: 6px;\n+  margin: 6px 0;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358241550,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n }\n \n .thumbnail{\n   border: 1px solid silver;\n-  padding: 6px;\n+ \n   border-radius: 6px;\n   margin: 6px 0;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358255927,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n }\n \n .thumbnail{\n   border: 1px solid silver;\n- \n+\n   border-radius: 6px;\n-  margin: 6px 0;\n+  margin: 8px 0;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358407206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,5 +16,10 @@\n   border: 1px solid silver;\n \n   border-radius: 6px;\n   margin: 8px 0;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358416631,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,26 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+.thumbnail{\n+  border: 1px solid silver;\n+\n+  border-radius: 6px;\n+  margin: 8px 0;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n+  max-width: 150px;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358472944,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,6 +21,6 @@\n \n .text-center {\n   text-align: center;\n   vertical-align: middle;\n-  max-width: 150px;\n+  max-width: 120px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358478506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,39 +13,14 @@\n }\n \n .thumbnail{\n   border: 1px solid silver;\n-\n+ max-width: 120px;\n   border-radius: 6px;\n   margin: 8px 0;\n }\n \n .text-center {\n   text-align: center;\n   vertical-align: middle;\n-  max-width: 120px;\n-}\n-.mat-elevation-z8{\n-  margin-top: 20px !important;\n-  margin-bottom: 20px !important;\n-}\n-\n-.w-100 {\n-  width: 100%;\n-}\n-\n-\n-.text-end{\n-  text-align: right !important;\n-}\n-\n-.thumbnail{\n-  border: 1px solid silver;\n-\n-  border-radius: 6px;\n-  margin: 8px 0;\n-}\n-\n-.text-center {\n-  text-align: center;\n-  vertical-align: middle;\n+ \n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358503120,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,6 +21,10 @@\n \n .text-center {\n   text-align: center;\n   vertical-align: middle;\n- \n+  max-width: 120px;\n+}\n+\n+.hide{\n+  width: 0;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753358539597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,6 +25,6 @@\n   max-width: 120px;\n }\n \n .hide{\n-  width: 0;\n+  width: 0 !important;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753359844506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,31 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+.thumbnail{\n+  border: 1px solid silver;\n+ max-width: 120px;\n+  border-radius: 6px;\n+  margin: 8px 0;\n+  cursor: pointer;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n+  max-width: 120px;\n+}\n+\n+.hide{\n+  width: 0 !important;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362598178,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,5 +27,9 @@\n }\n \n .hide{\n   width: 0 !important;\n+}\n+\n+.progbar{\n+  width: 100% !important;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362611759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,7 +29,8 @@\n .hide{\n   width: 0 !important;\n }\n \n-.progbar{\n-  width: 100% !important;\n+mat-progress-bar {\n+  width: 100%;\n+  margin-top: 4px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362624192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,6 +31,6 @@\n }\n \n mat-progress-bar {\n   width: 100%;\n-  margin-top: 4px;\n+  margin-top: 40px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362629344,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,36 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+.thumbnail{\n+  border: 1px solid silver;\n+ max-width: 120px;\n+  border-radius: 6px;\n+  margin: 8px 0;\n+  cursor: pointer;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n+  max-width: 120px;\n+}\n+\n+.hide{\n+  width: 0 !important;\n+}\n+\n+mat-progress-bar {\n+  width: 100%;\n+  margin-top: 10px;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362678888,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,5 +32,6 @@\n \n mat-progress-bar {\n   width: 100%;\n   margin-top: 10px;\n+  height: 10px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362685249,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,72 +32,6 @@\n \n mat-progress-bar {\n   width: 100%;\n   margin-top: 10px;\n-  height: 10px;\n-}\n-.mat-elevation-z8{\n-  margin-top: 20px !important;\n-  margin-bottom: 20px !important;\n-}\n-\n-.w-100 {\n-  width: 100%;\n-}\n-\n-\n-.text-end{\n-  text-align: right !important;\n-}\n-\n-.thumbnail{\n-  border: 1px solid silver;\n- max-width: 120px;\n-  border-radius: 6px;\n-  margin: 8px 0;\n-  cursor: pointer;\n-}\n-\n-.text-center {\n-  text-align: center;\n-  vertical-align: middle;\n-  max-width: 120px;\n-}\n-\n-.hide{\n-  width: 0 !important;\n-}\n-\n-mat-progress-bar {\n-  width: 100%;\n-  margin-top: 40px;\n-}\n-.mat-elevation-z8{\n-  margin-top: 20px !important;\n-  margin-bottom: 20px !important;\n-}\n-\n-.w-100 {\n-  width: 100%;\n-}\n-\n-\n-.text-end{\n-  text-align: right !important;\n-}\n-\n-.thumbnail{\n-  border: 1px solid silver;\n- max-width: 120px;\n-  border-radius: 6px;\n-  margin: 8px 0;\n-}\n-\n-.text-center {\n-  text-align: center;\n-  vertical-align: middle;\n-  max-width: 120px;\n-}\n-\n-.hide{\n-  width: 0 !important;\n+  height: 10px !important;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753362692693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,6 +32,5 @@\n \n mat-progress-bar {\n   width: 100%;\n   margin-top: 10px;\n-  height: 10px !important;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753363142692,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n   text-align: right !important;\n }\n \n .thumbnail{\n-  border: 1px solid silver;\n+  border: 1px solid #efefef;\n  max-width: 120px;\n   border-radius: 6px;\n   margin: 8px 0;\n   cursor: pointer;\n"
+                },
+                {
+                    "date": 1753363154747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,36 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+.thumbnail{\n+  border: 1px solid #e0e0e0;\n+ max-width: 120px;\n+  border-radius: 6px;\n+  margin: 8px 0;\n+  cursor: pointer;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n+  max-width: 120px;\n+}\n+\n+.hide{\n+  width: 0 !important;\n+}\n+\n+mat-progress-bar {\n+  width: 100%;\n+  margin-top: 10px;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753363173516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n   text-align: right !important;\n }\n \n .thumbnail{\n-  border: 1px solid #e0e0e0;\n+  border: 1px solid #e6e6e6;\n  max-width: 120px;\n   border-radius: 6px;\n   margin: 8px 0;\n   cursor: pointer;\n"
+                },
+                {
+                    "date": 1753453481173,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,40 +33,9 @@\n mat-progress-bar {\n   width: 100%;\n   margin-top: 10px;\n }\n-.mat-elevation-z8{\n-  margin-top: 20px !important;\n-  margin-bottom: 20px !important;\n-}\n \n-.w-100 {\n-  width: 100%;\n-}\n-\n-\n-.text-end{\n-  text-align: right !important;\n-}\n-\n-.thumbnail{\n-  border: 1px solid #efefef;\n- max-width: 120px;\n-  border-radius: 6px;\n-  margin: 8px 0;\n-  cursor: pointer;\n-}\n-\n-.text-center {\n-  text-align: center;\n-  vertical-align: middle;\n-  max-width: 120px;\n-}\n-\n-.hide{\n-  width: 0 !important;\n-}\n-\n-mat-progress-bar {\n-  width: 100%;\n-  margin-top: 10px;\n+.percentLabel{\n+  font-style: italic;\n+  font-weight: 100;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753454047055,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,42 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+.thumbnail{\n+  border: 1px solid #e6e6e6;\n+ max-width: 120px;\n+  border-radius: 6px;\n+  margin: 8px 0;\n+  cursor: pointer;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n+  max-width: 120px;\n+}\n+\n+.hide{\n+  width: 0 !important;\n+}\n+\n+mat-progress-bar {\n+  width: 100%;\n+  margin-top: 10px;\n+}\n+\n+.percentLabel{\n+  margin-top: 5px;\n+  font-style: italic;\n+  font-weight: 100;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753454063508,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,9 @@\n   margin-top: 10px;\n }\n \n .percentLabel{\n+  color: #3f51b5;\n   margin-top: 5px;\n   font-style: italic;\n   font-weight: 100;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753454078859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n   margin-top: 10px;\n }\n \n .percentLabel{\n-  color: #3f51b5;\n+ \n   margin-top: 5px;\n   font-style: italic;\n   font-weight: 100;\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1753358123024,
+            "name": "Commit-0",
+            "content": ".mat-elevation-z8{\n  margin-top: 20px !important;\n  margin-bottom: 20px !important;\n}\n\n.w-100 {\n  width: 100%;\n}\n\n\n.text-end{\n  text-align: right !important;\n}\n\nimg{\n  border: 1px solid silver;\n  padding: 6px;\n}"
+        }
+    ]
+}

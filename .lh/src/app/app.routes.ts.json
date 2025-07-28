@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/app.routes.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1753436731927,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753454809799,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,6 +9,5 @@\n   { path: '', component: BuildingsComponent },\n   { path: 'levels/:id', component: LevelsComponent },\n   { path: 'floorplan/:id', component: FloorplanComponent },\n   { path: 'rooms/:id', component: RoomsComponent },\n-\n ];\n"
+                },
+                {
+                    "date": 1753454879382,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,14 @@\n+import { Routes } from '@angular/router';\n+import { BuildingsComponent } from './components/buildings/buildings.component';\n+import { LevelsComponent } from './components/levels/levels.component';\n+import { FloorplanComponent } from './components/floorplan/floorplan.component';\n+import { RoomsComponent } from './components/rooms/rooms.component';\n+\n+\n+export const routes: Routes = [\n+  { path: 'buildings', component: BuildingsComponent },\n+  { path: 'levels/:id', component: LevelsComponent },\n+  { path: 'floorplan/:id', component: FloorplanComponent },\n+  { path: 'rooms/:id', component: RoomsComponent },\n+  { path: '**', redirectTo: 'buildings', pathMatch: 'full'}\n+];\n"
+                }
+            ],
+            "date": 1753436731927,
+            "name": "Commit-0",
+            "content": "import { Routes } from '@angular/router';\nimport { BuildingsComponent } from './components/buildings/buildings.component';\nimport { LevelsComponent } from './components/levels/levels.component';\nimport { FloorplanComponent } from './components/floorplan/floorplan.component';\nimport { RoomsComponent } from './components/rooms/rooms.component';\n\n\nexport const routes: Routes = [\n  { path: '', component: BuildingsComponent },\n  { path: 'levels/:id', component: LevelsComponent },\n  { path: 'floorplan/:id', component: FloorplanComponent },\n  { path: 'rooms/:id', component: RoomsComponent },\n\n];\n"
+        }
+    ]
+}

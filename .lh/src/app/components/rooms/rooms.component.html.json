@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/components/rooms/rooms.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1753436941741,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753436948937,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,5 @@\n <div class=\"container\">\n   <h2>Helységek szerkesztése</h2>\n   <h3>{{currentBuilding?.name}} ({{currentBuilding?.address}}) [ {{currentLevel?.name}} ]</h3>\n \n-  </div>\n-  \n\\ No newline at end of file\n+</div>\n"
+                },
+                {
+                    "date": 1753437281904,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,6 @@\n <div class=\"container\">\n   <h2>Helységek szerkesztése</h2>\n   <h3>{{currentBuilding?.name}} ({{currentBuilding?.address}}) [ {{currentLevel?.name}} ]</h3>\n-\n+<button mat-flat-button color=\"primary\" routerLink=\"/levels/{{buildingId}}\">\n+    <mat-icon>keyboard_backspace</mat-icon>Vissza</button>\n </div>\n"
+                }
+            ],
+            "date": 1753436941741,
+            "name": "Commit-0",
+            "content": "<div class=\"container\">\n  <h2>Helységek szerkesztése</h2>\n  <h3>{{currentBuilding?.name}} ({{currentBuilding?.address}}) [ {{currentLevel?.name}} ]</h3>"
+        }
+    ]
+}
