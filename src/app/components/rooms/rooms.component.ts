@@ -46,6 +46,17 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  stats = {
+    totalCount: 0,
+    totalArea: 0,
+    emptyCount: 0,
+    emptyArea: 0,
+    occupiedCount: 0,
+    occupiedArea: 0,
+    emptyRatioByCount: 0,
+    emptyRatioByArea: 0,
+  };
+
   levelId: any = null;
   buildingId: any = null;
   currentLevel: any = null;
@@ -93,6 +104,30 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   this.dataSource.sort = this.sort;
 }
 
+calculateStats() {
+  const rooms = this.dataSource.data;
+
+  this.stats.totalCount = rooms.length;
+  this.stats.totalArea = rooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
+
+  const emptyRooms = rooms.filter(r => Number(r.status) === 0);
+  const occupiedRooms = rooms.filter(r => Number(r.status) === 1);
+
+  this.stats.emptyCount = emptyRooms.length;
+  this.stats.emptyArea = emptyRooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
+
+  this.stats.occupiedCount = occupiedRooms.length;
+  this.stats.occupiedArea = occupiedRooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
+
+  this.stats.emptyRatioByCount = this.stats.totalCount > 0
+    ? Math.round((this.stats.emptyCount / this.stats.totalCount) * 100)
+    : 0;
+
+  this.stats.emptyRatioByArea = this.stats.totalArea > 0
+    ? Math.round((this.stats.emptyArea / this.stats.totalArea) * 100)
+    : 100;
+}
+
 
   loadBuilding() {
     this.api.select('buildings', this.buildingId).subscribe({
@@ -106,6 +141,19 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       next: (res) => {
         this.rooms = (res as any[]).filter(r => r.level_id == this.levelId);
       this.dataSource.data = this.rooms;
+      this.calculateStats();
+
+          this.route.queryParams.subscribe(params => {
+              const roomIdToEdit = params['edit'];
+              console.log(roomIdToEdit)
+              if (roomIdToEdit) {
+                const room = this.rooms.find(r => r.id === roomIdToEdit);
+                if (room) {
+                  this.onEdit(room);
+                }
+              }
+            });
+
       },
       error: (err) => {
         console.error('Szintek lekérdezési hiba:', err);

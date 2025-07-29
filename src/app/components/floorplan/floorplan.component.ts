@@ -26,13 +26,13 @@ import * as fabric from 'fabric';
 
 export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  mode: 'select' | 'line' | 'rect' | 'polygon' | 'textbox' | 'ellipse' | 'polyline' | 'image' = 'select';
+  mode: 'select' | 'line' | 'rect' | 'polygon' | 'textbox' | 'ellipse' | 'polyline' | 'image' | 'arc' = 'select';
 
   levelId: any = null;
   buildingId: any = null;
   currentLevel: any = null;
   currentBuilding: any = null;
-
+  rooms: any[] = [];
   readonly route = inject(ActivatedRoute);
   private isShiftDown = false;
   gridSnapEnabled: boolean = false;
@@ -47,6 +47,9 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   private rectCircles: fabric.Circle[] = [];
   private ellipseCircles: fabric.Circle[] = [];
   private hoveredVertexMarker?: fabric.Circle;
+  private arcPoints: { x: number, y: number }[] = [];
+  private arcRadiusPreview: fabric.Line | null = null;
+  private arcPathPreview: fabric.Path | null = null;
 
   private lines: fabric.Line[] = [];
   private radius = 5;
@@ -188,6 +191,13 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     angle: 0
   };
 
+  formArcStyle = {
+    name: '',
+    stroke: '#000000',
+    strokeWidth: 2,
+    strokeDashArray: 'solid' 
+  };
+
   selectedLineObject: fabric.Line | null = null;
   selectedTextObject: fabric.Textbox | null = null;
   selectedPolylineObject: fabric.Polyline | null = null;
@@ -196,41 +206,49 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedPolygonObject: fabric.Polygon | null = null;
   selectedImageFile: File | null = null;
   selectedImageObject: fabric.Image | null = null;
+  selectedArcObject: fabric.Path | null = null;
+
+  selectedRoomId: number | null = null;
 
 
   get showTextPanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
-    return this.mode === 'textbox' || ( objects.length > 0 && objects.every(o => o.type === 'textbox'));
+    return this.mode === 'textbox' || (objects.length > 0 && objects.every(o => o.type === 'textbox'));
   }
 
   get showLinePanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
-    return this.mode === 'line' || ( objects.length > 0 && objects.every(o => o.type === 'line'));
+    return this.mode === 'line' || (objects.length > 0 && objects.every(o => o.type === 'line'));
   }
 
   get showPolylinePanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
-    return this.mode === 'polyline' || ( objects.length > 0 && objects.every(o => o.type === 'polyline'));
+    return this.mode === 'polyline' || (objects.length > 0 && objects.every(o => o.type === 'polyline'));
   }
 
   get showRectPanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
-    return this.mode === 'rect' || ( objects.length > 0 && objects.every(o => o.type === 'rect'));
+    return this.mode === 'rect' || (objects.length > 0 && objects.every(o => o.type === 'rect'));
   }
 
   get showEllipsePanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
-    return this.mode === 'ellipse' || ( objects.length > 0 && objects.every(o => o.type === 'ellipse'));
+    return this.mode === 'ellipse' || (objects.length > 0 && objects.every(o => o.type === 'ellipse'));
   }
 
   get showPolygonPanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
-    return this.mode === 'polygon' || ( objects.length > 0 && objects.every(o => o.type === 'polygon'));
+    return this.mode === 'polygon' || (objects.length > 0 && objects.every(o => o.type === 'polygon'));
   }
 
   get showImagePanel(): boolean {
     return this.mode === 'image' || !!this.selectedImageObject;;
   }
+
+  get showArcPanel(): boolean {
+   const objects = this.canvas?.getActiveObjects() || [];
+    return this.mode === 'arc' || (objects.length > 0 && objects.every(o => o.type === 'path'));
+}
 
   get isObjectSelected(): boolean {
     return this.mode === 'select' && this.canvas?.getActiveObjects()?.length > 0;
@@ -255,9 +273,17 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   get selectedPolyLineObjects(): fabric.Polyline[] {
     return (this.canvas?.getActiveObjects() || []).filter(o => o.type === 'polyline') as fabric.Polyline[];
   }
-  
+
   get selectedPolygonObjects(): fabric.Polygon[] {
     return (this.canvas?.getActiveObjects() || []).filter(o => o.type === 'polygon') as fabric.Polygon[];
+  }
+
+  get selectedArcObjects(): fabric.Path[] {
+      return (this.canvas?.getActiveObjects() || []).filter(o => o.type === 'path') as fabric.Path[];
+  }
+
+  get isAreaObjectSelected(): boolean {
+    return !!(this.selectedRectObject || this.selectedEllipseObject || this.selectedPolygonObject);
   }
 
   resizeCanvas(): void {
@@ -329,11 +355,14 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       this.levelId = params.get('id');
 
+
       this.api.select('levels', this.levelId).subscribe({
         next: (res) => {
           this.buildingId = res.building_id;
           this.loadBuilding();
+
           this.currentLevel = res;
+          this.loadRooms();
           // console.log(res.floorplan)
           if (res.floorplan && res.floorplan !== '' && res.floorplan != '{"version":"6.7.0","objects":[]}') {
             this.canvas.loadFromJSON(res.floorplan, this.canvas.renderAll.bind(this.canvas));
@@ -385,7 +414,8 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
           'selectable',
           'evented',
           'id',
-          'visible'
+          'visible',
+          'roomId'
         ]);
       };
     })(fabric.Object.prototype.toObject);
@@ -810,6 +840,52 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
         return;
       }
+
+      // --- ARC ---
+      if (this.mode === 'arc') {
+        const pointer = this.canvas.getPointer(event.e);
+        this.arcPoints.push(pointer);
+
+        if (this.arcPoints.length === 3) {
+          const [center, start, anglePoint] = this.arcPoints;
+
+          const startAngle = Math.atan2(start.y - center.y, start.x - center.x);
+          const endAngle = Math.atan2(anglePoint.y - center.y, anglePoint.x - center.x);
+
+          let angleDeg = (endAngle - startAngle) * (180 / Math.PI);
+          if (angleDeg <= 0) angleDeg += 360;
+
+          const pathStr = this.createArcPathFromAngle(center, start, angleDeg);
+          const arc = new fabric.Path(pathStr, {
+            stroke: this.formArcStyle.stroke,
+            strokeWidth: this.formArcStyle.strokeWidth,
+            strokeDashArray: this.formArcStyle.strokeDashArray === 'solid' ? [0, 0] :
+                this.formArcStyle.strokeDashArray === 'dashed' ? [5, 5] :
+                  [2, 2],
+            fill: ''
+          });
+
+          arc.set({ name: this.generateAutoName('arc') });
+          this.canvas.add(arc);
+
+          // előnézeti vonalak törlése
+          if (this.arcRadiusPreview) {
+            this.canvas.remove(this.arcRadiusPreview);
+            this.arcRadiusPreview = null;
+          }
+          if (this.arcPathPreview) {
+            this.canvas.remove(this.arcPathPreview);
+            this.arcPathPreview = null;
+          }
+
+          this.arcPoints = [];
+          this.canvas.renderAll();
+        }
+
+        return;
+      }
+
+
 
     });
 
@@ -1261,6 +1337,63 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
       }
 
+      // --- ARC ---
+      if (this.mode === 'arc' && this.arcPoints.length === 2) {
+        const [center, start] = this.arcPoints;
+        const pointer = this.canvas.getPointer(event.e);
+
+        const startAngle = Math.atan2(start.y - center.y, start.x - center.x);
+        const endAngle = Math.atan2(pointer.y - center.y, pointer.x - center.x);
+
+        let angleDeg = (endAngle - startAngle) * (180 / Math.PI);
+        if (angleDeg <= 0) angleDeg += 360;
+
+        const arcPath = this.createArcPathFromAngle(center, start, angleDeg);
+
+        if (this.arcPathPreview) {
+          this.arcPathPreview.set({ path: new fabric.Path(arcPath).path });
+        } else {
+          this.arcPathPreview = new fabric.Path(arcPath, {
+            stroke: 'gray',
+            strokeWidth: 1,
+            strokeDashArray: [5, 5],
+            fill: '',
+            selectable: false,
+            evented: false,
+            excludeFromExport: true
+          });
+          this.canvas.add(this.arcPathPreview);
+        }
+
+        this.canvas.renderAll();
+        return;
+      }
+
+      if (this.mode === 'arc' && this.arcPoints.length === 1) {
+        const center = this.arcPoints[0];
+        const pointer = this.canvas.getPointer(event.e);
+
+        if (this.arcRadiusPreview) {
+          this.arcRadiusPreview.set({ x1: center.x, y1: center.y, x2: pointer.x, y2: pointer.y });
+        } else {
+          this.arcRadiusPreview = new fabric.Line(
+            [center.x, center.y, pointer.x, pointer.y],
+            {
+              stroke: 'gray',
+              strokeDashArray: [5, 5],
+              strokeWidth: 1,
+              selectable: false,
+              evented: false,
+              excludeFromExport: true
+            }
+          );
+          this.canvas.add(this.arcRadiusPreview);
+        }
+
+        this.canvas.renderAll();
+        return;
+      }
+
     });
 
     this.canvas.on('mouse:wheel', (opt) => {
@@ -1353,6 +1486,9 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.selectedEllipseObject = null;
       this.selectedPolygonObject = null;
       this.selectedImageObject = null;
+      this.selectedArcObject = null;
+
+      this.selectedRoomId = null;
       this.activeTabIndex = 1;
       this.refreshObjectList();
     });
@@ -1371,6 +1507,25 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.drawInfiniteGrid();
 
+  }
+
+  createArcPathFromAngle(
+    center: { x: number; y: number },
+    start: { x: number; y: number },
+    angleDegrees: number
+  ): string {
+    const r = Math.sqrt((start.x - center.x) ** 2 + (start.y - center.y) ** 2);
+
+    const startAngle = Math.atan2(start.y - center.y, start.x - center.x);
+    const endAngle = startAngle + (angleDegrees * Math.PI) / 180;
+
+    const endX = center.x + r * Math.cos(endAngle);
+    const endY = center.y + r * Math.sin(endAngle);
+
+    const largeArcFlag = angleDegrees > 180 ? 1 : 0;
+    const sweepFlag = 1; // mindig pozitív irányba
+
+    return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
   }
 
   refreshObjectList(): void {
@@ -1446,6 +1601,10 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
     const activeObj = this.canvas.getActiveObject();
 
+    if ((activeObj as any)?.roomId)
+      this.selectedRoomId = (activeObj as any)?.roomId
+    else
+      this.selectedRoomId = null;
     if (activeObj && activeObj.type !== 'select') {
       this.activeTabIndex = 0;
     }
@@ -1458,6 +1617,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.selectedTextObject = activeObj as fabric.Textbox;
       // Szinkronizálás a formTextStyle-lal
       this.formTextStyle.name = (activeObj as any).name;
+      this.formTextStyle.text = (activeObj as any).text;
       this.formTextStyle.fill = this.selectedTextObject.fill as string;
       this.formTextStyle.fontSize = this.selectedTextObject.fontSize ?? 20;
       this.formTextStyle.fontFamily = this.selectedTextObject.fontFamily ?? 'Arial';
@@ -1602,6 +1762,24 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.selectedImageObject = null;
     }
 
+    if (activeObj && activeObj.type === 'path') {
+      this.selectedArcObject = activeObj as fabric.Path;
+      this.formArcStyle.name = (activeObj as any).name;
+      this.formArcStyle.stroke = this.parseColorToHex(activeObj.stroke as string);
+      this.formArcStyle.strokeWidth = activeObj.strokeWidth ?? 2;
+
+      const dashArray = activeObj.strokeDashArray;
+      if (!dashArray || dashArray.length === 0) {
+        this.formArcStyle.strokeDashArray = 'solid';
+      } else if (dashArray[0] === 5 && dashArray[1] === 5) {
+        this.formArcStyle.strokeDashArray = 'dashed';
+      } else if (dashArray[0] === 2 && dashArray[1] === 2) {
+        this.formArcStyle.strokeDashArray = 'dotted'; 
+      }
+    }else {
+      this.selectedArcObject = null;
+    }
+
   }
 
   private parseColorToHex(color: string | undefined | null): string {
@@ -1670,7 +1848,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   applyLineStyle(): void {
     this.saveHistory();
     const style = this.formLineStyle;
-    
+
     this.selectedLineObjects.forEach(obj => {
       obj.set({
         name: style.name,
@@ -1678,10 +1856,10 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
         strokeWidth: style.strokeWidth,
         strokeDashArray: style.strokeDashArray === 'solid' ? [] : style.strokeDashArray === 'dashed' ? [5, 5] : [2, 2]
       });
-      
+
     });
     this.canvas.renderAll();
-    
+
   }
 
   applyPolylineStyle(): void {
@@ -1695,10 +1873,10 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
         strokeWidth: style.strokeWidth,
         strokeDashArray: style.strokeDashArray === 'solid' ? [] : style.strokeDashArray === 'dashed' ? [5, 5] : [2, 2]
       });
-      
+
     });
     this.canvas.renderAll();
-    
+
   }
 
   applyRectStyle(): void {
@@ -1715,18 +1893,18 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
         strokeWidth: style.strokeWidth,
         strokeDashArray: style.strokeDashArray === 'solid' ? [] : style.strokeDashArray === 'dashed' ? [5, 5] : [2, 2]
       });
-      
+
     });
 
     this.canvas.renderAll();
-    
+
   }
 
   applyEllipseStyle(): void {
     this.saveHistory();
     const style = this.formEllipseStyle;
 
-     this.selectedEllipseObjects.forEach(obj => {
+    this.selectedEllipseObjects.forEach(obj => {
       const alpha = style.fillOpacity / 100;
       const rgbaFill = this.hexToRgba(style.fill, alpha);
       obj.set({
@@ -1739,7 +1917,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     });
 
     this.canvas.renderAll();
-    
+
   }
 
   applyPolygonStyle(): void {
@@ -1759,7 +1937,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     });
 
     this.canvas.renderAll();
-  
+
   }
 
   applyImageStyle(): void {
@@ -1776,6 +1954,24 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.canvas.renderAll();
   }
+
+  applyArcStyle(): void {
+    this.saveHistory();
+    const style = this.formArcStyle;
+    this.selectedArcObjects.forEach(obj => {
+    obj.set({
+      name: style.name,
+      stroke: style.stroke,
+      strokeWidth: style.strokeWidth,
+      strokeDashArray:
+        style.strokeDashArray === 'solid' ? [] :
+        style.strokeDashArray === 'dashed' ? [5, 5] :
+        [2, 2]
+    });
+  });
+
+  this.canvas.renderAll();
+}
 
   bringToFront() {
     const active = this.canvas.getActiveObject();
@@ -2285,7 +2481,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       error: err => this.snackbar.show('Hiba történt! ' + err.message, 'error')
     });
   }
-
+  // console.log('Room frissítve:', updatedRoom);
   downloadSvg(): void {
     const svg = this.canvas.toSVG();
     const blob = new Blob([svg], { type: 'image/svg+xml' });
@@ -2503,7 +2699,8 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       'ellipse': 'Ellipszis',
       'polygon': 'Poligon',
       'polyline': 'Vonallánc',
-      'image': 'Kép'
+      'image': 'Kép',
+      'arc': 'Körív',
     }[type] || 'Objektum';
 
     return `${label} ${this.objectCounters[type]}`;
@@ -2749,7 +2946,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
     // --- Polygon / Polyline ---
     if (this.points.length > 0 || this.previewLine) {
-      wasDrawing = true;
+      wasDrawing   // console.log('Room frissítve:', updatedRoom); = true;
       this.points = [];
       this.pointCircles.forEach(c => this.canvas.remove(c));
       this.pointCircles = [];
@@ -2761,7 +2958,23 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     }
 
+    // --- Arc ---
+    if (this.arcPoints.length > 0 || this.arcRadiusPreview || this.arcPathPreview) {
+      wasDrawing = true;
+      this.arcPoints = [];
 
+      if (this.arcRadiusPreview) {
+        this.canvas.remove(this.arcRadiusPreview);
+        this.arcRadiusPreview = null;
+      }
+
+      if (this.arcPathPreview) {
+        this.canvas.remove(this.arcPathPreview);
+        this.arcPathPreview = null;
+      }
+    }
+
+    this.selectedRoomId = null;
     this.canvas.renderAll();
     return wasDrawing;
   }
@@ -3045,7 +3258,90 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   isThisObjectSelected(obj: fabric.Object): boolean {
     const active = this.canvas.getActiveObject();
     const activeGroup = this.canvas.getActiveObjects(); // lehet több is
-  return active === obj || activeGroup.includes(obj);
-}
+    return active === obj || activeGroup.includes(obj);
+  }
+
+  onRoomAssignChange() {
+    const active = this.canvas?.getActiveObject();
+    if (!active || !this.selectedRoomId) return;
+
+    // Mentés a canvas objektumba
+    (active as any).roomId = this.selectedRoomId;
+
+    // Kapcsolt areaLabel alapján terület kinyerése
+    let areaText = '';
+    if ((active as any).areaLabel) {
+      areaText = ((active as any).areaLabel as any).text || '';
+    }
+
+    const areaValue = this.extractArea(areaText); // Pl. "24.45 m2" -> 24.45
+
+    // PATCH vagy PUT a backend felé
+    const updatedRoom = {
+      //id: this.selectedRoomId,
+      area: areaValue,
+    };
+
+    this.api.update('rooms', this.selectedRoomId, updatedRoom).subscribe({
+      next: () => {
+        // console.log('Room frissítve:', updatedRoom);
+        this.loadRooms();
+        this.saveToDatabase();
+      },
+      error: (err) => {
+        console.error('Room frissítés sikertelen:', err);
+      }
+    });
+
+    this.canvas.renderAll();
+  }
+
+  extractArea(areaText: string): number {
+    if (!areaText) return 0;
+    const match = areaText.match(/[\d.]+/);
+    return match ? parseFloat(match[0]) : 0;
+  }
+
+  loadRooms() {
+    this.api.selectAll('rooms').subscribe({
+      next: (data) => {
+        this.rooms = data.filter((room: any) =>
+          //  Number(room.status) === 0 &&
+          Number(room.level_id) === Number(this.levelId) &&
+          Number(room.building_id) === Number(this.buildingId)
+        );
+      },
+      error: (err) => {
+        console.error('Helyiségek betöltése sikertelen', err);
+      }
+    });
+  }
+
+  onRoomUnassign() {
+
+    const active = this.canvas?.getActiveObject();
+
+    if (!active || !this.selectedRoomId) return;
+    const updatedRoom = {
+      //id: this.selectedRoomId,
+      area: 0,
+    };
+
+    this.api.update('rooms', this.selectedRoomId, updatedRoom).subscribe({
+      next: () => {
+        (active as any).roomId = null;
+        // console.log('Room frissítve:', updatedRoom);
+        this.selectedRoomId = null;
+        this.loadRooms();
+        this.saveToDatabase();
+      },
+      error: (err) => {
+        console.error('Room frissítés sikertelen:', err);
+      }
+    });
+
+    this.canvas.renderAll();
+  }
+
 }
 

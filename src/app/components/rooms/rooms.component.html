@@ -56,6 +56,60 @@
             </button>
 
         </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Statisztika </mat-panel-title>
+                <mat-panel-description>
+                    Helységek statisztikai adatai
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="statistics">
+                <table class="table w-100">
+                    <tr>
+                        <td><strong>Összes helység:</strong></td>
+                        <td>{{ stats.totalCount }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Összterület:</strong></td>
+                        <td>{{ stats.totalArea | number:'1.2-2' }} m²</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Üres helységek:</strong></td>
+                        <td>{{ stats.emptyCount }} db ({{ stats.emptyArea | number:'1.2-2' }} m²)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kiadott helységek:</strong></td>
+                        <td>{{ stats.occupiedCount }} db ({{ stats.occupiedArea | number:'1.2-2' }} m²)</td>
+                    </tr>
+
+                    <!-- Darabszám alapú arány -->
+                    <tr>
+                        <td><strong>Kiadott / Üres arány (darabszám):</strong></td>
+                        <td>
+                            {{ 100 - stats.emptyRatioByCount }}% / {{ stats.emptyRatioByCount }}%
+                            <mat-progress-bar [value]="100-stats.emptyRatioByCount" mode="determinate" color="primary"
+                                class="bar-empty">
+                            </mat-progress-bar>
+                        </td>
+                    </tr>
+
+                    <!-- Terület alapú arány -->
+                    <tr>
+                        <td><strong>Kiadott / Üres arány (terület):</strong></td>
+                        <td>
+                            {{ 100 - stats.emptyRatioByArea }}% / {{ stats.emptyRatioByArea }}%
+                            <mat-progress-bar [value]="100-stats.emptyRatioByArea" mode="determinate" color="accent"
+                                class="bar-empty">
+                            </mat-progress-bar>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </mat-expansion-panel>
+
     </mat-accordion>
 
     <div class="mat-elevation-z8">
@@ -65,7 +119,7 @@
             <ng-container matColumnDef="id" class="hide">
                 <th mat-header-cell *matHeaderCellDef class="hide"> # </th>
                 <td mat-cell *matCellDef="let element; let i = index" class="text-center">
-                      {{ i + 1 + (paginator.pageIndex * paginator.pageSize) }}.
+                    {{ i + 1 + (paginator.pageIndex * paginator.pageSize) }}.
                 </td>
             </ng-container>
 
@@ -122,5 +176,9 @@
 
     <button mat-flat-button color="primary" routerLink="/levels/{{buildingId}}">
         <mat-icon>keyboard_backspace</mat-icon>Vissza
+    </button>
+
+    <button mat-flat-button color="primary" routerLink="/floorplan/{{currentLevel?.id}}" title="Helységek" class="ms-1">
+        <mat-icon>wallpaper</mat-icon>Alaprajz
     </button>
 </div>

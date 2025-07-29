@@ -3,11 +3,39 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1753439430599,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753782106316,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,40 @@\n+.mat-elevation-z8{\n+  margin-top: 20px !important;\n+  margin-bottom: 20px !important;\n+}\n+\n+.w-100 {\n+  width: 100%;\n+}\n+\n+\n+.text-end{\n+  text-align: right !important;\n+}\n+\n+.thumbnail{\n+  border: 1px solid #e6e6e6;\n+ max-width: 120px;\n+  border-radius: 6px;\n+  margin: 8px 0;\n+  cursor: pointer;\n+}\n+\n+.text-center {\n+  text-align: center;\n+  vertical-align: middle;\n+  max-width: 120px;\n+}\n+\n+.hide{\n+  width: 0 !important;\n+}\n+\n+mat-progress-bar {\n+  width: 100%;\n+  margin-top: 10px;\n+}\n+\n+.ms-1{\n+  margin-left: 5px;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753784435664,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,5 +36,13 @@\n }\n \n .ms-1{\n   margin-left: 5px;\n+}\n+\n+::ng-deep .bar-empty .mat-progress-bar-fill {\n+  background-color: #4caf50 !important; /* Zöld: üres */\n+}\n+\n+::ng-deep .bar-empty .mat-progress-bar-buffer {\n+  background-color: #f44336 !important; /* Piros: kiadott */\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753784443763,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,47 +38,11 @@\n .ms-1{\n   margin-left: 5px;\n }\n \n-::ng-deep .bar-empty .mat-progress-bar-fill {\n+ .bar-empty .mat-progress-bar-fill {\n   background-color: #4caf50 !important; /* Zöld: üres */\n }\n \n-::ng-deep .bar-empty .mat-progress-bar-buffer {\n+ .bar-empty .mat-progress-bar-buffer {\n   background-color: #f44336 !important; /* Piros: kiadott */\n-}\n-.mat-elevation-z8{\n-  margin-top: 20px !important;\n-  margin-bottom: 20px !important;\n-}\n-\n-.w-100 {\n-  width: 100%;\n-}\n-\n-\n-.text-end{\n-  text-align: right !important;\n-}\n-\n-.thumbnail{\n-  border: 1px solid #e6e6e6;\n- max-width: 120px;\n-  border-radius: 6px;\n-  margin: 8px 0;\n-  cursor: pointer;\n-}\n-\n-.text-center {\n-  text-align: center;\n-  vertical-align: middle;\n-  max-width: 120px;\n-}\n-\n-.hide{\n-  width: 0 !important;\n-}\n-\n-mat-progress-bar {\n-  width: 100%;\n-  margin-top: 10px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753784458552,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,12 +37,4 @@\n \n .ms-1{\n   margin-left: 5px;\n }\n-\n- .bar-empty .mat-progress-bar-fill {\n-  background-color: #4caf50 !important; /* Zöld: üres */\n-}\n-\n- .bar-empty .mat-progress-bar-buffer {\n-  background-color: #f44336 !important; /* Piros: kiadott */\n-}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753786182747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,4 +37,8 @@\n \n .ms-1{\n   margin-left: 5px;\n }\n+\n+tr td{\n+  border-bottom: 1px solid silver;\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753786192588,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,5 +40,6 @@\n }\n \n tr td{\n   border-bottom: 1px solid silver;\n+  padding: 10px;\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1753786212334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,7 +39,7 @@\n   margin-left: 5px;\n }\n \n tr td{\n-  border-bottom: 1px solid silver;\n+  border-bottom: 1px solid #efefef;\n   padding: 10px;\n }\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1753439430599,

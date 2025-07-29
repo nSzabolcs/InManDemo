@@ -21,6 +21,9 @@
       <mat-button-toggle value="rect" title="Téglalap"><mat-icon>crop_square</mat-icon> </mat-button-toggle>
       <mat-button-toggle value="ellipse"
         title="Ellipszis"><mat-icon>radio_button_unchecked</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="arc" title="Körív">
+        <mat-icon>replay</mat-icon>
+      </mat-button-toggle>
       <mat-button-toggle value="polygon" title="Poligon"><mat-icon>star_border</mat-icon> </mat-button-toggle>
       <mat-button-toggle value="textbox" title="Szöveg"><mat-icon> text_fields</mat-icon> </mat-button-toggle>
       <mat-button-toggle value="image" title="Kép"><mat-icon> image</mat-icon> </mat-button-toggle>
@@ -45,6 +48,15 @@
       <button mat-flat-button (click)="redo()" [disabled]="redoStack.length === 0" class="ml" color="primary"
         title="Mégis">
         <mat-icon>redo</mat-icon>
+      </button>
+
+      <button mat-flat-button color="warn" (click)="deleteSelectedObjects()" title="Kijelölt elemek törlése"
+        class="ms-1">
+        <mat-icon>delete</mat-icon>Törlés
+      </button>
+
+      <button mat-flat-button color="warn" (click)="clearCanvas()" title="Rajzlap törlése" class="ms-1">
+        <mat-icon>delete_sweep</mat-icon>Mindet töröl
       </button>
 
     </div>
@@ -425,8 +437,37 @@
                 </ng-container>
               </table>
             </div>
-
-
+            
+            <!-- ARC SETTINGS -->
+            <div *ngIf="showArcPanel" class="style-panel arc-panel">
+              <h3>Körív beállítások</h3>
+              <hr>
+              <table>
+                <tr>
+                  <td><label>Címke:</label></td>
+                  <td><input type="text" [(ngModel)]="formArcStyle.name" (change)="applyArcStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label>Szín:</label></td>
+                  <td><input type="color" [(ngModel)]="formArcStyle.stroke" (change)="applyArcStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label>Vastagság:</label></td>
+                  <td><input type="number" [(ngModel)]="formArcStyle.strokeWidth" (change)="applyArcStyle()"></td>
+                </tr>
+                <tr>
+                  <td><label>Stílus:</label></td>
+                  <td>
+                    <select [(ngModel)]="formArcStyle.strokeDashArray" (change)="applyArcStyle()">
+                      <option value="solid">Folytonos</option>
+                      <option value="dashed">Szaggatott</option>
+                      <option value="dotted">Pontozott</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+       
             <!-- LAYER-CONTROL -->
             <div class="layer-controls" *ngIf="isObjectSelected">
               <h3>Réteg kezelés</h3>
@@ -441,6 +482,35 @@
                 title="Hátra küldés"><mat-icon>vertical_align_bottom</mat-icon></button>
               <hr>
             </div>
+
+            <!-- ROOM-CONTROL -->
+            <div class="room-control"
+              *ngIf="(mode === 'rect' || mode === 'ellipse' || mode === 'polygon') || isAreaObjectSelected">
+              <h3>Helyiség kezelés</h3>
+              <hr />
+
+              <label for="roomSelect">Hozzárendelt helyiség:</label>
+              <div class="d-flex align-items-center object-list">
+                <select id="roomSelect" [(ngModel)]="selectedRoomId" (change)="onRoomAssignChange()">
+                  <option [ngValue]="null">-- Válassz helyiséget --</option>
+                  <option *ngFor="let room of rooms" [ngValue]="room.id">
+                    {{ room.name }}
+                  </option>
+                </select>
+                <!-- Szerkesztés gomb -->
+                <button mat-icon-button color="primary" routerLink="/rooms/{{this.currentLevel?.id}}"
+                  [queryParams]="{ edit: selectedRoomId }" title="Helyiség szerkesztése">
+                  <mat-icon class="small-icon">edit</mat-icon>
+                </button>
+                <!-- Törlés gomb csak ha van hozzárendelt helyiség -->
+                <button mat-icon-button color="warn" *ngIf="selectedRoomId !== null" (click)="onRoomUnassign()"
+                  title="Hozzárendelés törlése">
+                  <mat-icon class="small-icon">clear</mat-icon>
+                </button>
+              </div>
+            </div>
+
+
           </div>
         </mat-tab>
 
@@ -493,12 +563,21 @@
   <br><br>
   <button mat-flat-button color="primary" routerLink="/levels/{{buildingId}}">
     <mat-icon>keyboard_backspace</mat-icon>Vissza</button>
+
+
   <button mat-flat-button color="primary" (click)="saveToDatabase()" class="ms-1"><mat-icon>save</mat-icon>
     Mentés</button>
+
+  <button mat-flat-button color="primary" routerLink="/rooms/{{currentLevel?.id}}" title="Helységek" class="ms-1">
+    <mat-icon>dashboard</mat-icon>Helységek
+  </button>
+
   <button mat-flat-button color="primary" (click)="downloadSvg()" class="ms-1"><mat-icon>download</mat-icon> Letöltés
     SVG-be</button>
+
   <button mat-flat-button color="primary" (click)="fileInput.click()" class="ms-1"><mat-icon>upload</mat-icon>Betöltés
     SVG-ből</button>
+
   <input type="file" accept=".svg" style="display: none;" #fileInput (change)="onFileSelected($event)" />
 
   <button mat-flat-button color="primary" (click)="resetView()" title="Nézet alaphelyzetbe állítása" class="ms-1">
@@ -510,13 +589,5 @@
     <mat-icon>settings_overscan</mat-icon>Teljes nézet
   </button>
 
-  <button mat-flat-button color="warn" (click)="deleteSelectedObjects()" title="Rajzlap törlése" class="ms-1">
-    <mat-icon>cancel_presentation</mat-icon>
-    Törlés
-  </button>
 
-  <button mat-flat-button color="warn" (click)="clearCanvas()" class="ms-1">
-    <mat-icon>delete_forever</mat-icon>
-    Mindent töröl
-  </button>
 </div>
