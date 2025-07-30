@@ -31,6 +31,10 @@
 
     <div class="mat-button-group">
 
+      <button mat-flat-button color="primary" (click)="enableGrid()" *ngIf="!showGrid" title="Rács bekapcsolása" class="ml"><mat-icon>grid_on</mat-icon></button>
+      <button mat-flat-button color="primary" (click)="disableGrid()" *ngIf="showGrid" title="Rács kikapcsolása" class="ml"><mat-icon>grid_off</mat-icon></button>
+
+
       <button mat-flat-button color="primary" (click)="copy()" class="ml" title="Másolás">
         <mat-icon>content_copy</mat-icon>
       </button>
@@ -38,7 +42,6 @@
       <button mat-flat-button color="primary" (click)="paste()" class="ml" title="Beillesztés">
         <mat-icon>content_paste</mat-icon>
       </button>
-
 
       <button mat-flat-button (click)="undo()" [disabled]="undoStack.length === 0" class="ml" color="primary"
         title="Mégse">
@@ -51,12 +54,12 @@
       </button>
 
       <button mat-flat-button color="warn" (click)="deleteSelectedObjects()" title="Kijelölt elemek törlése"
-        class="ms-1">
-        <mat-icon>delete</mat-icon>Törlés
+        class="ml">
+        <mat-icon>delete</mat-icon>&nbsp;Törlés
       </button>
 
-      <button mat-flat-button color="warn" (click)="clearCanvas()" title="Rajzlap törlése" class="ms-1">
-        <mat-icon>delete_sweep</mat-icon>Mindet töröl
+      <button mat-flat-button color="warn" (click)="clearCanvas()" title="Rajzlap törlése" class="ml">
+        <mat-icon>delete_sweep</mat-icon>&nbsp;Mindet töröl
       </button>
 
     </div>
@@ -77,7 +80,8 @@
 
             <!-- TEXT DETAILS -->
             <div *ngIf="showTextPanel" class="text-settings">
-              <h3 class="title">Szöveg tulajdonságok</h3>
+              <h3 class="prop_title">Szöveg tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('text')"> <mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table class="text-settings-table w-100">
                 <tr>
@@ -165,7 +169,8 @@
 
             <!-- LINE DETAILS -->
             <div *ngIf="showLinePanel" class="line-settings">
-              <h3 class="title">Vonal tulajdonságok</h3>
+              <h3 class="prop_title">Vonal tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('line')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table>
                 <tr>
@@ -195,7 +200,8 @@
 
             <!-- POLYLINE DETAILS -->
             <div *ngIf="showPolylinePanel" class="line-settings">
-              <h3 class="title">Vonallánc tulajdonságok</h3>
+              <h3 class="prop_title">Vonallánc tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('polyline')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table class="text-settings-table">
                 <tr>
@@ -232,7 +238,8 @@
 
             <!-- RECT DETAILS -->
             <div *ngIf="showRectPanel" class="rect-settings">
-              <h3 class="title">Téglalap tulajdonságok</h3>
+              <h3 class="prop_title">Téglalap tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('rect')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table class="text-settings-table">
                 <tr>
@@ -267,6 +274,28 @@
                   </td>
                 </tr>
                 <tr>
+                  <td>Minta:</td>
+                  <td>
+                    <select id="rect-fill-style" [(ngModel)]="formRectStyle.fillPattern" (change)="applyRectStyle()">
+                      <option value="none">Nincs</option>
+                      <option value="diagonal1">Átlós csíkozás 1</option>
+                      <option value="diagonal2">Átlós csíkozás 2</option>
+                      <option value="vertical">Függőleges</option>
+                      <option value="horizontal">Vízszintes</option>
+                      <option value="cross">Kereszt</option>
+                      <option value="grid">Rács</option>
+                      <option value="dots">Pöttyözött</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr *ngIf="formRectStyle.fillPattern != 'none'">
+                  <td><label for="rect-fill-pattern-size">Mintaméret:</label></td>
+                  <td>
+                    <input type="number" id="rect-fill-pattern-size" [(ngModel)]="formRectStyle.fillPatternSize"
+                      (input)="applyRectStyle()" min="5" max="50">
+                  </td>
+                </tr>
+                <tr>
                   <td><label for="fill-opacity">Áttetszőség:</label></td>
                   <td>
                     <mat-slider [min]="0" [max]="100" [step]="1" value="formRectStyle.fillOpacity"
@@ -287,7 +316,8 @@
 
             <!-- ELLIPSE DETAILS -->
             <div *ngIf="showEllipsePanel" class="ellipse-settings">
-              <h3 class="title">Ellipszis tulajdonságok</h3>
+              <h3 class="prop_title">Ellipszis tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('ellipse')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table class="text-settings-table">
                 <tr>
@@ -327,6 +357,29 @@
                   </td>
                 </tr>
                 <tr>
+                  <td>Minta:</td>
+                  <td>
+                    <select id="ellipse-fill-style" [(ngModel)]="formEllipseStyle.fillPattern"
+                      (change)="applyEllipseStyle()">
+                      <option value="none">Nincs</option>
+                      <option value="diagonal1">Átlós csíkozás 1</option>
+                      <option value="diagonal2">Átlós csíkozás 2</option>
+                      <option value="vertical">Függőleges</option>
+                      <option value="horizontal">Vízszintes</option>
+                      <option value="cross">Kereszt</option>
+                      <option value="grid">Rács</option>
+                      <option value="dots">Pöttyözött</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr *ngIf="formEllipseStyle.fillPattern != 'none'">
+                  <td><label for="ellipse-fill-pattern-size">Mintaméret:</label></td>
+                  <td>
+                    <input type="number" id="ellipse-fill-pattern-size" [(ngModel)]="formEllipseStyle.fillPatternSize"
+                      (input)="applyEllipseStyle()" min="5" max="50">
+                  </td>
+                </tr>
+                <tr>
                   <td><label>Áttetszőség:</label></td>
                   <td>
                     <mat-slider [min]="0" [max]="100" [step]="1" (input)="onEllipseOpacityChange($event)" class="w-100">
@@ -345,7 +398,8 @@
 
             <!-- POLYGON SETTINGS -->
             <div *ngIf="showPolygonPanel" class="rect-settings">
-              <h3 class="title">Poligon tulajdonságok</h3>
+              <h3 class="prop_title">Poligon tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('polygon')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table class="text-settings-table">
                 <tr>
@@ -363,7 +417,7 @@
                       (change)="applyPolygonStyle()" /></td>
                 </tr>
                 <tr>
-                  <td><label for="polygon-stroke-style">Stílus:</label></td>
+                  <td><label for="polygon-stroke-style">Vonalstílus:</label></td>
                   <td>
                     <select id="polygon-stroke-style" [(ngModel)]="formPolygonStyle.strokeDashArray"
                       (change)="applyPolygonStyle()">
@@ -377,6 +431,29 @@
                   <td><label for="polygon-fill">Kitöltés:</label></td>
                   <td><input id="polygon-fill" type="color" [(ngModel)]="formPolygonStyle.fill"
                       (change)="applyPolygonStyle()" /></td>
+                </tr>
+                <tr>
+                  <td>Minta:</td>
+                  <td>
+                    <select id="polygon-fill-style" [(ngModel)]="formPolygonStyle.fillPattern"
+                      (change)="applyPolygonStyle()">
+                      <option value="none">Nincs</option>
+                      <option value="diagonal1">Átlós csíkozás 1</option>
+                      <option value="diagonal2">Átlós csíkozás 2</option>
+                      <option value="vertical">Függőleges</option>
+                      <option value="horizontal">Vízszintes</option>
+                      <option value="cross">Kereszt</option>
+                      <option value="grid">Rács</option>
+                      <option value="dots">Pöttyözött</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr *ngIf="formPolygonStyle.fillPattern != 'none'">
+                  <td><label for="polygon-fill-pattern-size">Mintaméret:</label></td>
+                  <td>
+                    <input type="number" id="polygon-fill-pattern-size" [(ngModel)]="formPolygonStyle.fillPatternSize"
+                      (input)="applyPolygonStyle()" min="5" max="50">
+                  </td>
                 </tr>
                 <tr>
                   <td><label for="polygon-opacity">Áttetszőség:</label></td>
@@ -397,7 +474,8 @@
 
             <!-- IMAGE SETTINGS -->
             <div *ngIf="showImagePanel" class="property-panel">
-              <h3 class="title">Kép tulajdonságok</h3>
+              <h3 class="prop_title">Kép tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('image')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table class="form-table">
                 <tr>
@@ -437,10 +515,11 @@
                 </ng-container>
               </table>
             </div>
-            
+
             <!-- ARC SETTINGS -->
             <div *ngIf="showArcPanel" class="style-panel arc-panel">
-              <h3>Körív beállítások</h3>
+              <h3 class="prop_title">Körív beállítások <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('arc')"><mat-icon>rotate_right</mat-icon></button></h3>
               <hr>
               <table>
                 <tr>
@@ -467,7 +546,7 @@
                 </tr>
               </table>
             </div>
-       
+
             <!-- LAYER-CONTROL -->
             <div class="layer-controls" *ngIf="isObjectSelected">
               <h3>Réteg kezelés</h3>
@@ -508,8 +587,16 @@
                   <mat-icon class="small-icon">clear</mat-icon>
                 </button>
               </div>
+              <hr>
             </div>
 
+            <!-- SELECTED COUNT -->
+            <div class="selected-count" *ngIf="isObjectsSelected">
+              <h3>Kijelölt elemek</h3>
+              <hr />
+              <p><strong>{{ selectedObjectsCount }}</strong> elem van kijelölve</p>
+              <hr>
+            </div>
 
           </div>
         </mat-tab>
@@ -564,7 +651,6 @@
   <button mat-flat-button color="primary" routerLink="/levels/{{buildingId}}">
     <mat-icon>keyboard_backspace</mat-icon>Vissza</button>
 
-
   <button mat-flat-button color="primary" (click)="saveToDatabase()" class="ms-1"><mat-icon>save</mat-icon>
     Mentés</button>
 
@@ -588,6 +674,5 @@
   <button mat-flat-button color="primary" (click)="zoomToFit()" class="ms-1">
     <mat-icon>settings_overscan</mat-icon>Teljes nézet
   </button>
-
 
 </div>

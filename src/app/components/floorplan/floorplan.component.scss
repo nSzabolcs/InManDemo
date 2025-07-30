@@ -60,6 +60,7 @@ input, select{
   max-height: 685px; 
   overflow-y: auto;
   padding-top: 15px;
+  overflow-x: hidden;
 }
 
 .object-list {
@@ -158,7 +159,8 @@ input, select{
 }
 
 .ml{
-  margin-left: 10px !important;
+  margin-top: 7px !important;
+  margin-left: 5px !important;
 }
 
 .textarea{
@@ -174,4 +176,14 @@ input, select{
   align-items: center;
 }
 
+
+.prop_title {
+  display: flex;
+  justify-content: space-between; /* balra és jobbra igazítás */
+  align-items: center;            /* függőlegesen középre */
+}
+
+.prop_title button {
+  margin-left: auto; /* extra biztonság, hogy jobbra tolja */
+}
 

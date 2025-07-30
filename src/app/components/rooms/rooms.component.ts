@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ImagemodalComponent } from '../imagemodal/imagemodal.component';
-import { MatSelectModule } from '@angular/material/select'; 
+import { MatSelectModule } from '@angular/material/select';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
@@ -21,19 +21,19 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   selector: 'app-rooms',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatButtonModule, 
-    MatExpansionModule, 
-    MatAccordion, 
-    MatTableModule, 
-    MatFormFieldModule, 
-    MatInputModule, 
-    MatIconModule, 
-    MatDialogModule, 
-    FormsModule, 
+    CommonModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatAccordion,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatDialogModule,
+    FormsModule,
     RouterModule,
-    MatProgressBarModule, 
-    MatSelectModule, 
+    MatProgressBarModule,
+    MatSelectModule,
     MatPaginatorModule,
     MatSortModule
   ],
@@ -100,34 +100,33 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this.sort;
-}
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
-calculateStats() {
-  const rooms = this.dataSource.data;
+  calculateStats() {
+    const rooms = this.dataSource.data;
 
-  this.stats.totalCount = rooms.length;
-  this.stats.totalArea = rooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
+    this.stats.totalCount = rooms.length;
+    this.stats.totalArea = rooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
 
-  const emptyRooms = rooms.filter(r => Number(r.status) === 0);
-  const occupiedRooms = rooms.filter(r => Number(r.status) === 1);
+    const emptyRooms = rooms.filter(r => Number(r.status) === 0);
+    const occupiedRooms = rooms.filter(r => Number(r.status) === 1);
 
-  this.stats.emptyCount = emptyRooms.length;
-  this.stats.emptyArea = emptyRooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
+    this.stats.emptyCount = emptyRooms.length;
+    this.stats.emptyArea = emptyRooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
 
-  this.stats.occupiedCount = occupiedRooms.length;
-  this.stats.occupiedArea = occupiedRooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
+    this.stats.occupiedCount = occupiedRooms.length;
+    this.stats.occupiedArea = occupiedRooms.reduce((sum, r) => sum + (Number(r.area) || 0), 0);
 
-  this.stats.emptyRatioByCount = this.stats.totalCount > 0
-    ? Math.round((this.stats.emptyCount / this.stats.totalCount) * 100)
-    : 0;
+    this.stats.emptyRatioByCount = this.stats.totalCount > 0
+      ? Math.round((this.stats.emptyCount / this.stats.totalCount) * 100)
+      : 100;
 
-  this.stats.emptyRatioByArea = this.stats.totalArea > 0
-    ? Math.round((this.stats.emptyArea / this.stats.totalArea) * 100)
-    : 100;
-}
-
+    this.stats.emptyRatioByArea = this.stats.totalArea > 0
+      ? Math.round((this.stats.emptyArea / this.stats.totalArea) * 100)
+      : 100;
+  }
 
   loadBuilding() {
     this.api.select('buildings', this.buildingId).subscribe({
@@ -140,19 +139,19 @@ calculateStats() {
     this.api.selectAll('rooms').subscribe({
       next: (res) => {
         this.rooms = (res as any[]).filter(r => r.level_id == this.levelId);
-      this.dataSource.data = this.rooms;
-      this.calculateStats();
+        this.dataSource.data = this.rooms;
+        this.calculateStats();
 
-          this.route.queryParams.subscribe(params => {
-              const roomIdToEdit = params['edit'];
-              console.log(roomIdToEdit)
-              if (roomIdToEdit) {
-                const room = this.rooms.find(r => r.id === roomIdToEdit);
-                if (room) {
-                  this.onEdit(room);
-                }
-              }
-            });
+        this.route.queryParams.subscribe(params => {
+          const roomIdToEdit = params['edit'];
+          console.log(roomIdToEdit)
+          if (roomIdToEdit) {
+            const room = this.rooms.find(r => r.id === roomIdToEdit);
+            if (room) {
+              this.onEdit(room);
+            }
+          }
+        });
 
       },
       error: (err) => {
@@ -171,7 +170,7 @@ calculateStats() {
     }
 
     this.roomForm.building_id = this.buildingId;
-     this.roomForm.level_id = this.levelId;
+    this.roomForm.level_id = this.levelId;
 
     if (id) {
       this.api.update('rooms', id, this.roomForm).subscribe({
@@ -244,6 +243,5 @@ calculateStats() {
       panelClass: 'fullscreen-dialog'
     });
   }
-
 
 }
