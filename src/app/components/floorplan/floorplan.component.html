@@ -27,12 +27,15 @@
       <mat-button-toggle value="polygon" title="Poligon"><mat-icon>star_border</mat-icon> </mat-button-toggle>
       <mat-button-toggle value="textbox" title="Szöveg"><mat-icon> text_fields</mat-icon> </mat-button-toggle>
       <mat-button-toggle value="image" title="Kép"><mat-icon> image</mat-icon> </mat-button-toggle>
+      <mat-button-toggle value="template" title="Sablon"><mat-icon>widgets</mat-icon> </mat-button-toggle>
     </mat-button-toggle-group>
 
     <div class="mat-button-group">
 
-      <button mat-flat-button color="primary" (click)="enableGrid()" *ngIf="!showGrid" title="Rács bekapcsolása" class="ml"><mat-icon>grid_on</mat-icon></button>
-      <button mat-flat-button color="primary" (click)="disableGrid()" *ngIf="showGrid" title="Rács kikapcsolása" class="ml"><mat-icon>grid_off</mat-icon></button>
+      <button mat-flat-button color="primary" (click)="enableGrid()" *ngIf="!showGrid" title="Rács bekapcsolása"
+        class="ml"><mat-icon>grid_on</mat-icon></button>
+      <button mat-flat-button color="primary" (click)="disableGrid()" *ngIf="showGrid" title="Rács kikapcsolása"
+        class="ml"><mat-icon>grid_off</mat-icon></button>
 
 
       <button mat-flat-button color="primary" (click)="copy()" class="ml" title="Másolás">
@@ -53,8 +56,7 @@
         <mat-icon>redo</mat-icon>
       </button>
 
-      <button mat-flat-button color="warn" (click)="deleteSelectedObjects()" title="Kijelölt elemek törlése"
-        class="ml">
+      <button mat-flat-button color="warn" (click)="deleteSelectedObjects()" title="Kijelölt elemek törlése" class="ml">
         <mat-icon>delete</mat-icon>&nbsp;Törlés
       </button>
 
@@ -547,6 +549,58 @@
               </table>
             </div>
 
+            <!-- TEMPLATE SETTINGS -->
+            <div *ngIf="showTemplatePanel" class="property-panel">
+              <h3 class="prop_title">Sablon tulajdonságok <button mat-icon-button title="Alaphelyzetbe állítás"
+                  (click)="resetFormStyle('template')"><mat-icon>rotate_right</mat-icon></button></h3>
+              <hr>
+              <table class="form-table">
+                <tr>
+                  <td><label for="imageName">Címke:</label></td>
+                  <td>
+                    <input id="imageName" type="text" [(ngModel)]="formTemplateStyle.name" (change)="applyTemplateStyle()">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><label for="templateSelect">Sablon:</label></td>
+                  <td>
+                    <select id="templateSelect" [(ngModel)]="formTemplateStyle.templateName" (change)="applyTemplateStyle()">
+                      <option value="">-- Válassz sablont --</option>
+                      <option *ngFor="let template of savedTemplates" [value]="template.name">
+                        {{ template.name }}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+
+                <ng-container>
+                  <tr>
+                    <td><label for="imageOpacity">Átlátszóság:</label></td>
+                    <td>
+                      <input id="imageOpacity" type="range" min="0" max="1" step="0.05"
+                        [(ngModel)]="formTemplateStyle.opacity" (input)="applyTemplateStyle()">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="imageScaleX">Szélesség arány:</label></td>
+                    <td><input id="imageScaleX" type="number" step="0.1" [(ngModel)]="formTemplateStyle.scaleX"
+                        (change)="applyTemplateStyle()"></td>
+                  </tr>
+                  <tr>
+                    <td><label for="imageScaleY">Magasság arány:</label></td>
+                    <td><input id="imageScaleY" type="number" step="0.1" [(ngModel)]="formTemplateStyle.scaleY"
+                        (change)="applyTemplateStyle()"></td>
+                  </tr>
+                  <tr>
+                    <td><label for="imageAngle">Forgatás:</label></td>
+                    <td><input id="imageAngle" type="number" step="1" [(ngModel)]="formTemplateStyle.angle"
+                        (change)="applyTemplateStyle()"></td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+
             <!-- LAYER-CONTROL -->
             <div class="layer-controls" *ngIf="isObjectSelected">
               <h3>Réteg kezelés</h3>
@@ -598,6 +652,15 @@
               <hr>
             </div>
 
+            <!--SAVE NEW TEMPLATE -->
+            <div *ngIf="isObjectsSelected">
+              <h3>Sablon mentése</h3>
+              <hr />
+              <label for="templateName">Sablon neve:</label>
+              <input type="text" id="templateName" placeholder="pl. mosdó" [(ngModel)]="newTemplate.name" class="w-100"/>
+              <button mat-flat-button color="primary" type="button" (click)="saveTemplate()"><mat-icon>save</mat-icon>&nbsp;Mentés sablonként</button>
+              <hr />
+            </div>
           </div>
         </mat-tab>
 
@@ -605,6 +668,10 @@
           <div class="elements-scroll">
 
             <input type="text" placeholder="Keresés..." [(ngModel)]="elementSearch" class="search-input" />
+
+            <div *ngIf="objectList.length == 0" class="text-center">
+              <h5>Jelenleg nincsenek elemek.</h5>
+            </div>
 
             <ul class="object-list">
               <li *ngFor="let obj of objectList | objectFilter:elementSearch"

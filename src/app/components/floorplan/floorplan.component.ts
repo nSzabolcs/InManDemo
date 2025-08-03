@@ -15,7 +15,10 @@ import { ApiService } from '../../services/api.service';
 import { ObjectFilterPipe } from './object-filter.pipe';
 import { SnackbarService } from '../../services/snackbar.service';
 import * as fabric from 'fabric';
-
+interface Template {
+  name: string;
+  json: string;
+}
 @Component({
   selector: 'app-floorplan',
   standalone: true,
@@ -26,8 +29,9 @@ import * as fabric from 'fabric';
 
 export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
+
   readonly route = inject(ActivatedRoute);
-  mode: 'select' | 'line' | 'rect' | 'polygon' | 'textbox' | 'ellipse' | 'polyline' | 'image' | 'arc' = 'select';
+  mode: 'select' | 'line' | 'rect' | 'polygon' | 'textbox' | 'ellipse' | 'polyline' | 'image' | 'arc' | 'template' = 'select';
   levelId: any = null;
   buildingId: any = null;
   currentLevel: any = null;
@@ -76,6 +80,8 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   private lineHintText?: fabric.Text;
   private polylineHintText?: fabric.Text;
   private ellipseHintText?: fabric.Text;
+  private snapPoints: { x: number; y: number }[] = [];
+  private snapThreshold = 10;
 
   constructor(
     private api: ApiService,
@@ -127,7 +133,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     fontFamily: 'Arial',
     fontWeight: 'normal' as 'normal' | 'bold',
     fontStyle: 'normal' as 'normal' | 'italic',
-    textAlign: 'left' as 'left' | 'center' | 'right',
+    textAlign: 'center' as 'left' | 'center' | 'right',
     underline: false,
     linethrough: false
   };
@@ -187,6 +193,15 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     angle: 0
   };
 
+  formTemplateStyle = {
+    name: '',
+    templateName: '',
+    opacity: 1,
+    scaleX: 1,
+    scaleY: 1,
+    angle: 0
+  };
+
   formArcStyle = {
     name: '',
     stroke: '#000000',
@@ -204,6 +219,12 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedImageObject: fabric.Image | null = null;
   selectedArcObject: fabric.Path | null = null;
   selectedRoomId: number | null = null;
+  selectedTemplateObject: Template | null = null;
+  savedTemplates: Template[] = [];
+  newTemplate: Template = {
+    name: '',
+    json: ''
+  };
 
   get showTextPanel(): boolean {
     const objects = this.canvas?.getActiveObjects() || [];
@@ -237,6 +258,10 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
   get showImagePanel(): boolean {
     return this.mode === 'image' || !!this.selectedImageObject;;
+  }
+
+  get showTemplatePanel(): boolean {
+    return this.mode === 'template' || !!this.selectedTemplateObject;
   }
 
   get showArcPanel(): boolean {
@@ -317,43 +342,43 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.canvas.renderAll();
     }
 
- if (e.ctrlKey && e.key.toLowerCase() === 'a') {
-    e.preventDefault(); // ne jelölje ki a teljes oldalt
+    if (e.ctrlKey && e.key.toLowerCase() === 'a') {
+      e.preventDefault(); // ne jelölje ki a teljes oldalt
 
-    const allObjects = this.canvas.getObjects().filter(o => o.visible /*&& o.selectable*/);
+      const allObjects = this.canvas.getObjects().filter(o => o.visible /*&& o.selectable*/);
 
-    if (this.mode === 'select') {
-      // minden objektum kijelölése
-      this.canvas.discardActiveObject();
-      if (allObjects.length > 0) {
-        const selection = new fabric.ActiveSelection(allObjects, { canvas: this.canvas });
-        this.canvas.setActiveObject(selection);
-      }
-    } else {
-      // csak a módhoz tartozó típus kiválasztása
-      let type = '';
-      switch (this.mode) {
-        case 'line': type = 'line'; break;
-        case 'rect': type = 'rect'; break;
-        case 'ellipse': type = 'ellipse'; break;
-        case 'polygon': type = 'polygon'; break;
-        case 'polyline': type = 'polyline'; break;
-        case 'textbox': type = 'textbox'; break;
-        case 'image': type = 'image'; break;
-        case 'arc': type = 'path'; break; // az arc path típus
-      }
-     
-      const sameTypeObjects = allObjects.filter(o => o.type === type);
+      if (this.mode === 'select') {
+        // minden objektum kijelölése
+        this.canvas.discardActiveObject();
+        if (allObjects.length > 0) {
+          const selection = new fabric.ActiveSelection(allObjects, { canvas: this.canvas });
+          this.canvas.setActiveObject(selection);
+        }
+      } else {
+        // csak a módhoz tartozó típus kiválasztása
+        let type = '';
+        switch (this.mode) {
+          case 'line': type = 'line'; break;
+          case 'rect': type = 'rect'; break;
+          case 'ellipse': type = 'ellipse'; break;
+          case 'polygon': type = 'polygon'; break;
+          case 'polyline': type = 'polyline'; break;
+          case 'textbox': type = 'textbox'; break;
+          case 'image': type = 'image'; break;
+          case 'arc': type = 'path'; break; // az arc path típus
+        }
 
-      this.canvas.discardActiveObject();
-      if (sameTypeObjects.length > 0) {
-        const selection = new fabric.ActiveSelection(sameTypeObjects, { canvas: this.canvas });
-        this.canvas.setActiveObject(selection);
+        const sameTypeObjects = allObjects.filter(o => o.type === type);
+
+        this.canvas.discardActiveObject();
+        if (sameTypeObjects.length > 0) {
+          const selection = new fabric.ActiveSelection(sameTypeObjects, { canvas: this.canvas });
+          this.canvas.setActiveObject(selection);
+        }
       }
+
+      this.canvas.requestRenderAll();
     }
-
-    this.canvas.requestRenderAll();
-  }
 
     if (e.key === 'Delete' && this.mode === 'select') {
       const activeObjects = this.canvas.getActiveObjects();
@@ -446,6 +471,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
         return originalToObject.call(this, [
           ...safeProps,
           'name',
+          'templateName',
           'areaLabelId',
           'areaLinked',
           'showAreaLabel',
@@ -872,7 +898,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
           editable: true,
           textAlign: this.formTextStyle.textAlign,
           originX: this.formTextStyle.textAlign,
-          originY: 'top'
+          originY: 'center'
         });
 
         (textbox as any).name = this.formTextStyle.name;
@@ -887,7 +913,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       // --- IMAGE ---
       if (this.mode === 'image') {
         this.saveHistory();
-        const pointer = this.canvas.getPointer(event.e);
+        //      const pointer = this.canvas.getPointer(event.e);
 
         if (!this.selectedImageFile) {
           this.snackbar.show('Nincs kép kiválasztva!', 'error');
@@ -928,9 +954,15 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
         return;
       }
 
+      // --- TEMPLATE ---
+      if (this.mode === 'template') {
+        //  const pointer = this.canvas.getPointer(event.e);
+        this.placeTemplateAt(pointer);
+      }
+
       // --- ARC ---
       if (this.mode === 'arc') {
-        const pointer = this.canvas.getPointer(event.e);
+        //    const pointer = this.canvas.getPointer(event.e);
         this.arcPoints.push(pointer);
 
         if (this.arcPoints.length === 3) {
@@ -1543,10 +1575,22 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.refreshObjectList()
     });
 
-    this.canvas.on('object:removed', () => {
-      //     this.saveHistory();
-      this.refreshObjectList()
+    this.canvas.on('object:removed', (e) => {
+      const removed = e.target;
+      if (!removed) return;
+
+      // ha a törölt objektum rect/ellipse/polygon és van hozzá kapcsolt label
+      const type = removed.type;
+      if (type === 'rect' || type === 'ellipse' || type === 'polygon') {
+        const areaLabel = (removed as any).areaLabel as fabric.Textbox;
+        if (areaLabel && this.canvas.getObjects().includes(areaLabel)) {
+          this.canvas.remove(areaLabel);
+        }
+      }
+
+      this.refreshObjectList();
     });
+
 
     this.canvas.on('object:modified', () => {
       //    this.saveHistory();
@@ -1572,7 +1616,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.selectedPolygonObject = null;
       this.selectedImageObject = null;
       this.selectedArcObject = null;
-
+      this.selectedTemplateObject = null;
       this.selectedRoomId = null;
       this.activeTabIndex = 1;
       this.refreshObjectList();
@@ -1591,6 +1635,8 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     });
 
     this.drawInfiniteGrid();
+
+    this.updateSnapPoints();
 
   }
 
@@ -1615,6 +1661,8 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
 
   refreshObjectList(): void {
     this.objectList = this.canvas.getObjects().filter(obj => !obj.excludeFromExport);
+    this.updateSnapPoints();
+
   }
 
   toggleVisibility(obj: fabric.Object): void {
@@ -1898,6 +1946,20 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       this.selectedArcObject = null;
     }
 
+    if (activeObj && activeObj.type === 'group') {
+      this.selectedTemplateObject = activeObj as any;
+
+      this.formTemplateStyle.name = (activeObj as any).name ?? '';
+      this.formTemplateStyle.templateName = (activeObj as any).templateName ?? '';
+      this.formTemplateStyle.opacity = activeObj.opacity ?? 1;
+      this.formTemplateStyle.scaleX = activeObj.scaleX ?? 1;
+      this.formTemplateStyle.scaleY = activeObj.scaleY ?? 1;
+      this.formTemplateStyle.angle = activeObj.angle ?? 0;
+    } else {
+      this.selectedTemplateObject = null;
+    }
+
+
   }
 
   private parseColorToHex(color: string | undefined | null): string {
@@ -2139,6 +2201,102 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     this.canvas.renderAll();
   }
 
+  selectedTemplate(): { name: string } | string {
+    return this.savedTemplates.find(t => t.name === this.selectedTemplateObject?.name) || '';
+  }
+/*
+applyTemplateStyle(): void {
+  this.saveHistory();
+
+  if (!this.formTemplateStyle.templateName) {
+    this.selectedTemplateObject = null;
+    return;
+  }
+
+  // Megkeressük a kiválasztott sablont
+  this.selectedTemplateObject = this.savedTemplates.find(
+    t => t.name === this.formTemplateStyle.templateName
+  ) ?? null;
+
+  if (!this.selectedTemplateObject) return;
+console.log(this.selectedTemplateObject)
+  const groupData = JSON.parse(this.selectedTemplateObject.json);
+
+  fabric.Group.fromObject(groupData).then(group => {
+    // Alkalmazzuk a beállításokat
+    group.set({
+      opacity: this.formTemplateStyle.opacity,
+      scaleX: this.formTemplateStyle.scaleX,
+      scaleY: this.formTemplateStyle.scaleY,
+      angle: this.formTemplateStyle.angle,
+      originX: 'center',
+      originY: 'center',
+      selectable: true,
+      evented: true
+    });
+
+    (group as any).name = this.formTemplateStyle.name;
+    (group as any).templateName = this.formTemplateStyle.templateName;
+  //  (group as any).type = 'group'; // ← Tipp: elírás volt: "tempalte"
+
+    // Előnézet frissítés céljából (pl. az oldalon valahol megjeleníted)
+    this.canvas.renderAll();
+  });
+}*/
+
+/*
+applyTemplateStyle(): void {
+  this.saveHistory();
+
+  const activeObj = this.canvas.getActiveObject();
+
+  // Ellenőrzés: valóban egy template típusú elem van kiválasztva?
+  if (!activeObj || !(activeObj as any).templateName) return;
+
+  activeObj.set({
+    opacity: this.formTemplateStyle.opacity ?? 1,
+    scaleX: this.formTemplateStyle.scaleX ?? 1,
+    scaleY: this.formTemplateStyle.scaleY ?? 1,
+    angle: this.formTemplateStyle.angle ?? 0
+  });
+
+  (activeObj as any).name = this.formTemplateStyle.name;
+  (activeObj as any).templateName = this.formTemplateStyle.templateName;
+
+  this.canvas.renderAll();
+}*/
+
+applyTemplateStyle(): void {
+  this.saveHistory();
+
+  const activeObj = this.canvas.getActiveObject();
+
+  // Ha aktív sablon van kijelölve, módosítjuk
+  if (activeObj && (activeObj as any).templateName) {
+    activeObj.set({
+      opacity: this.formTemplateStyle.opacity ?? 1,
+      scaleX: this.formTemplateStyle.scaleX ?? 1,
+      scaleY: this.formTemplateStyle.scaleY ?? 1,
+      angle: this.formTemplateStyle.angle ?? 0
+    });
+
+    (activeObj as any).name = this.formTemplateStyle.name;
+    (activeObj as any).templateName = this.formTemplateStyle.templateName;
+
+    this.canvas.renderAll();
+    return;
+  }
+
+  // Ha nincs aktív objektum, kiválasztott sablon beállítása (de nem szúrunk be semmit!)
+  const selected = this.savedTemplates.find(
+    t => t.name === this.formTemplateStyle.templateName
+  );
+
+  this.selectedTemplateObject = selected ?? null;
+}
+
+
+
   applyArcStyle(): void {
     this.saveHistory();
     const style = this.formArcStyle;
@@ -2277,7 +2435,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private drawInfiniteGrid(): void {
-    
+
     if (!this.showGrid) return;
 
     const ctx = this.canvas.getContext();
@@ -2620,6 +2778,21 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private getSnappedPointer(pointer: { x: number; y: number }): { x: number; y: number } {
+
+    const snap = this.snapPoints.find(p => {
+      const dx = pointer.x - p.x;
+      const dy = pointer.y - p.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      return dist < this.snapThreshold;
+    });
+
+    if (snap) {
+      this.showVertexMarker(snap.x, snap.y);
+      return { x: snap.x, y: snap.y };
+    }
+
+    this.removeVertexMarker();
+
     let refPoint: { x: number; y: number } | null = null;
 
     if ((this.mode === 'polygon' || this.mode === 'polyline') && this.points.length > 0) {
@@ -2908,6 +3081,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
       'polyline': 'Vonallánc',
       'image': 'Kép',
       'arc': 'Körív',
+      'template': 'Sablon',
     }[type] || 'Objektum';
 
     return `${label} ${this.objectCounters[type]}`;
@@ -2928,6 +3102,9 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
     this.formTextStyle.name = this.generateAutoName('textbox');
     this.formImageStyle.name = this.generateAutoName('image');
     this.formArcStyle.name = this.generateAutoName('arc');
+    this.formTemplateStyle.name = this.generateAutoName('template');
+
+    this.loadSavedTemplates();
   }
 
   private createAreaLabelForPolygon(polygon: fabric.Polygon): fabric.Textbox {
@@ -3438,7 +3615,7 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   private showVertexMarker(x: number, y: number) {
     const zoom = this.canvas.getZoom();
     const baseRadius = 5;
-    
+
     // Zoom függvényében skálázunk, de adunk min/max határt
     let scaledRadius = baseRadius / zoom;
     if (scaledRadius < 2) scaledRadius = 2;  // minimális méret
@@ -3739,6 +3916,17 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
         };
         break;
       }
+      case 'template': {
+        this.formTemplateStyle = {
+          name: this.generateAutoName('template'),
+          templateName: '',
+          opacity: 1,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0
+        };
+        break;
+      }
     }
 
   }
@@ -3751,6 +3939,170 @@ export class FloorplanComponent implements AfterViewInit, OnInit, OnDestroy {
   disableGrid() {
     this.showGrid = false;
     this.canvas.renderAll();
+  }
+
+  private updateSnapPoints(): void {
+    this.snapPoints = [];
+
+    this.canvas.getObjects().forEach(obj => {
+      if ((obj as any).excludeFromExport) return;
+
+      // --- LINE ---
+      if (obj.type === 'line') {
+        const line = obj as fabric.Line;
+        this.snapPoints.push({ x: line.x1!, y: line.y1! });
+        this.snapPoints.push({ x: line.x2!, y: line.y2! });
+      }
+
+      // --- RECT ---
+      if (obj.type === 'rect') {
+        const rect = obj as fabric.Rect;
+        const left = rect.left!;
+        const top = rect.top!;
+        const width = rect.width! * rect.scaleX!;
+        const height = rect.height! * rect.scaleY!;
+        this.snapPoints.push(
+          { x: left, y: top },
+          { x: left + width, y: top },
+          { x: left, y: top + height },
+          { x: left + width, y: top + height }
+        );
+      }
+
+      // --- ELLIPSE ---
+      if (obj.type === 'ellipse') {
+        const center = obj.getCenterPoint();
+        this.snapPoints.push(center);
+      }
+
+      // --- POLYGON / POLYLINE ---
+      if (obj.type === 'polygon' || obj.type === 'polyline') {
+        const poly = obj as fabric.Polygon | fabric.Polyline;
+        const matrix = obj.calcTransformMatrix();
+        const offsetX = poly.pathOffset?.x || 0;
+        const offsetY = poly.pathOffset?.y || 0;
+
+        poly.points.forEach(pt => {
+          const p = fabric.util.transformPoint(
+            new fabric.Point(pt.x - offsetX, pt.y - offsetY),
+            matrix
+          );
+          this.snapPoints.push({ x: p.x, y: p.y });
+        });
+      }
+
+      // --- TEXTBOX ---
+      if (obj.type === 'textbox') {
+        const center = obj.getCenterPoint();
+        this.snapPoints.push(center);
+      }
+
+      // --- IMAGE ---
+      if (obj.type === 'image') {
+        const bounds = obj.getBoundingRect();
+        this.snapPoints.push(
+          { x: bounds.left, y: bounds.top },
+          { x: bounds.left + bounds.width, y: bounds.top },
+          { x: bounds.left, y: bounds.top + bounds.height },
+          { x: bounds.left + bounds.width, y: bounds.top + bounds.height },
+          { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2 }
+        );
+      }
+
+      // --- ARC (fabric.Path) ---
+      if (obj.type === 'path') {
+        const center = obj.getCenterPoint();
+        this.snapPoints.push(center);
+
+        const bounds = obj.getBoundingRect();
+        this.snapPoints.push(
+          { x: bounds.left, y: bounds.top },
+          { x: bounds.left + bounds.width, y: bounds.top },
+          { x: bounds.left, y: bounds.top + bounds.height },
+          { x: bounds.left + bounds.width, y: bounds.top + bounds.height }
+        );
+      }
+    });
+  }
+
+placeTemplateAt(pointer: { x: number; y: number }) {
+  if (!this.selectedTemplateObject) {
+    this.snackbar.show('Nincs kiválasztott sablon!', 'error');
+    return;
+  }
+
+  const groupData = JSON.parse(this.selectedTemplateObject.json);
+
+  fabric.Group.fromObject(groupData).then(group => {
+    group.set({
+      left: pointer.x,
+      top: pointer.y,
+      originX: 'center',
+      originY: 'center',
+      selectable: true,
+      evented: true,
+
+      // Itt alkalmazzuk a stílusbeállításokat is:
+      opacity: this.formTemplateStyle.opacity ?? 1,
+      scaleX: this.formTemplateStyle.scaleX ?? 1,
+      scaleY: this.formTemplateStyle.scaleY ?? 1,
+      angle: this.formTemplateStyle.angle ?? 0
+    });
+
+    (group as any).name = this.formTemplateStyle.name;
+    (group as any).templateName = this.formTemplateStyle.templateName;
+  //  (group as any).type = 'template';
+
+    this.canvas.add(group);
+    this.formTemplateStyle.name = this.generateAutoName('template');
+  //  this.canvas.setActiveObject(group);
+    this.canvas.renderAll();
+  });
+}
+
+
+  saveTemplate() {
+
+    const name = this.newTemplate.name.trim();
+
+    if (!name) {
+      alert('Adj meg egy nevet a sablonnak!');
+      return;
+    }
+
+    const active = this.canvas.getActiveObject();
+
+    if (!active) {
+      alert('Nincs kijelölt objektum!');
+      return;
+    }
+
+    const group = active.type === 'activeSelection'
+      ? active
+      : new fabric.Group([active]);
+
+    const json = JSON.stringify(group.toObject());
+
+    this.savedTemplates.push({ name, json });
+    localStorage.setItem('savedTemplates', JSON.stringify(this.savedTemplates));
+    // Frissítjük a dropdown-t
+
+    this.newTemplate.name = '';
+    alert(`"${name}" sablon elmentve.`);
+  }
+
+  loadSavedTemplates(): void {
+    const raw = localStorage.getItem('savedTemplates');
+    if (raw) {
+      try {
+        this.savedTemplates = JSON.parse(raw);
+      } catch (e) {
+        console.error('Hiba a sablonok betöltésekor:', e);
+        this.savedTemplates = [];
+      }
+    } else {
+      this.savedTemplates = [];
+    }
   }
 
 }

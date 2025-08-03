@@ -14,7 +14,6 @@ small{
   background-color: white;
   border: 1px solid #e0e0e0 !important;
   margin-bottom: 10px;
-
 }
 
 canvas {
@@ -46,15 +45,15 @@ input, select{
   margin-left: 5px;
 }
 
-
 .w-100{
   width: 95%;
 }
 
-
+/*
 .layer-controls{
-  /*text-align: center;*/
+  text-align: center;
 }
+  */
 
 .elements-scroll {
   max-height: 685px; 
@@ -176,14 +175,13 @@ input, select{
   align-items: center;
 }
 
-
 .prop_title {
   display: flex;
-  justify-content: space-between; /* balra és jobbra igazítás */
-  align-items: center;            /* függőlegesen középre */
+  justify-content: space-between; 
+  align-items: center;           
 }
 
 .prop_title button {
-  margin-left: auto; /* extra biztonság, hogy jobbra tolja */
+  margin-left: auto; 
 }
 
